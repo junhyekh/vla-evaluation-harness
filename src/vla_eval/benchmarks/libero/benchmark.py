@@ -87,9 +87,12 @@ class LIBEROBenchmark(StepBenchmark):
             When None, uses ``MAX_STEP_MAPPING[suite]``.
         env_seed: Seed for ``env.seed()``.  When None, defaults to ``seed``.
             OpenVLA reference uses ``env_seed=0`` separately from ``seed=7``.
+        robot: Registered robosuite robot model (default ``"Panda"``).
     """
 
-    _ALL_RECORD_FIELDS = frozenset({"reward", "done", "success"})
+    _ALL_RECORD_FIELDS = frozenset(
+        {"reward", "done", "success", "raw_action", "action", "eef_pos", "eef_quat", "gripper_qpos"}
+    )
 
     # Inherited as-is by LIBERO-Pro / -Plus / -Mem, which share this renderer path.
     render_backends = frozenset({"gpu", "cpu"})
@@ -109,6 +112,7 @@ class LIBEROBenchmark(StepBenchmark):
         max_steps: int | None = None,
         env_seed: int | None = None,
         quat_no_antipodal: bool = False,
+        robot: str = "Panda",
     ) -> None:
         super().__init__()
         self.suite = suite
@@ -120,6 +124,7 @@ class LIBEROBenchmark(StepBenchmark):
         self.send_state = send_state
         self.absolute_action = absolute_action
         self._max_steps = max_steps
+        self.robot = robot
         self._env = None
         self._task_suite = None
         self._current_task_id: int | None = None
@@ -160,12 +165,20 @@ class LIBEROBenchmark(StepBenchmark):
     def get_tasks(self) -> list[Task]:
         self._init_libero()
         assert self._task_suite is not None
+        from pathlib import Path
+
+        from libero.libero import get_libero_path
+        from libero.libero.envs.bddl_utils import get_problem_info
+
         tasks = []
         for task_id in range(self._task_suite.n_tasks):
             task = self._task_suite.get_task(task_id)
+            bddl_file = Path(get_libero_path("bddl_files")) / task.problem_folder / task.bddl_file
             tasks.append(
                 {
-                    "name": task.language,
+                    # Perturbed suites keep their authoritative instruction in BDDL;
+                    # deriving it from the filename silently restores the base task.
+                    "name": get_problem_info(str(bddl_file))["language_instruction"],
                     "suite": self.suite,
                     "task_id": task_id,
                     "task_obj": task,
@@ -191,6 +204,7 @@ class LIBEROBenchmark(StepBenchmark):
             bddl_file = Path(get_libero_path("bddl_files")) / task_obj.problem_folder / task_obj.bddl_file
             env_args = {
                 "bddl_file_name": str(bddl_file),
+                "robots": [self.robot],
                 "camera_heights": LIBERO_ENV_RESOLUTION,
                 "camera_widths": LIBERO_ENV_RESOLUTION,
             }
@@ -205,7 +219,7 @@ class LIBEROBenchmark(StepBenchmark):
         # Set initial state
         assert self._task_suite is not None
         initial_states = self._task_suite.get_task_init_states(task_id)
-        obs = self._env.set_init_state(initial_states[episode_idx])
+        obs = self._set_init_state(initial_states[episode_idx])
 
         # Run dummy action wait steps (always in delta mode to avoid slamming to origin)
         for _ in range(self.num_steps_wait):
@@ -218,6 +232,11 @@ class LIBEROBenchmark(StepBenchmark):
 
         self._recorder.record_video(self._extract_frame(obs))
         return obs
+
+    def _set_init_state(self, initial_state: np.ndarray) -> Any:
+        """Load a suite initial state; embodiment subclasses may transcode it."""
+        assert self._env is not None
+        return self._env.set_init_state(initial_state)
 
     def step(self, action: Action) -> StepResult:
         raw_action = action.get("actions", action.get("action"))
@@ -235,7 +254,16 @@ class LIBEROBenchmark(StepBenchmark):
         assert self._env is not None
         obs, reward, done, info = self._env.step(processed_action)
         self._recorder.record_video(self._extract_frame(obs))
-        self._recorder.record_step(reward=float(reward), done=bool(done), success=bool(done))
+        self._recorder.record_step(
+            reward=float(reward),
+            done=bool(done),
+            success=bool(done),
+            raw_action=raw_action,
+            action=processed_action,
+            eef_pos=obs["robot0_eef_pos"],
+            eef_quat=obs["robot0_eef_quat"],
+            gripper_qpos=obs["robot0_gripper_qpos"],
+        )
         return StepResult(obs=obs, reward=reward, done=done, info=info)
 
     @staticmethod

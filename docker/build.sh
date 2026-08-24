@@ -31,7 +31,7 @@ done
 BENCHMARKS=(simpler libero libero_pro libero_plus libero_mem robocerebra maniskill2 calvin mikasa_robo vlabench rlbench robotwin robocasa robocasa365 kinetix robomme molmospaces behavior1k duobench robodojo)
 
 # Derived images that extend a benchmark image instead of base
-DERIVED_BENCHMARKS=(simpler_groot simpler_xvla)
+DERIVED_BENCHMARKS=(simpler_groot simpler_xvla libero_rby1 libero_pro_rby1 libero_ur5 libero_pro_ur5)
 
 # Images whose Dockerfile gates the build behind an ``ARG ACCEPT_*=YES``
 # build-arg.  Map: image-name → "<arg-name> <licence-url>".  Adding a new
@@ -80,6 +80,10 @@ build_image() {
 
   if is_derived "$name"; then
     local parent="${name%%_*}"
+    if [[ "$name" == libero_pro_* ]]; then
+      parent="libero_pro"
+      dockerfile="docker/Dockerfile.libero_${name#libero_pro_}"
+    fi
     local parent_image="${parent//_/-}"
     build_args=(
       --build-arg "BASE_IMAGE=${REGISTRY}/${parent_image}:${TAG}"
@@ -122,6 +126,7 @@ if [[ -n "$TARGET" ]]; then
     build_image base
     if $target_is_derived; then
       parent="${TARGET%%_*}"
+      [[ "$TARGET" == libero_pro_* ]] && parent="libero_pro"
       build_image "$parent"
     fi
   fi

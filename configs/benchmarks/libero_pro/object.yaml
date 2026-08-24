@@ -1,0 +1,29 @@
+# LIBERO-Pro Object family: 4 perturbations x 10 tasks x 50 initial states.
+server:
+  url: "ws://localhost:8000"
+
+docker:
+  image: ghcr.io/allenai/vla-evaluation-harness/libero-pro:latest
+
+output_dir: "./results"
+
+benchmarks:
+  - &libero_pro_object
+    benchmark: "vla_eval.benchmarks.libero_pro.benchmark:LIBEROProBenchmark"
+    subname: libero_object_object
+    episodes_per_task: 50
+    params: &object
+      suite: libero_object
+      perturbation: object
+      seed: 7
+      num_steps_wait: 10
+
+  - <<: *libero_pro_object
+    subname: libero_object_swap
+    params: {<<: *object, perturbation: swap}
+  - <<: *libero_pro_object
+    subname: libero_object_lan
+    params: {<<: *object, perturbation: lan}
+  - <<: *libero_pro_object
+    subname: libero_object_task
+    params: {<<: *object, perturbation: task}

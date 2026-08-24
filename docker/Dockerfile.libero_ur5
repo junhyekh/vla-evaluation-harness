@@ -1,0 +1,13 @@
+ARG BASE_IMAGE=ghcr.io/allenai/vla-evaluation-harness/libero:latest
+FROM ${BASE_IMAGE}
+
+SHELL ["conda", "run", "-n", "libero", "/bin/bash", "-c"]
+
+COPY src/ src/
+ARG HARNESS_VERSION=0.0.0
+ENV SETUPTOOLS_SCM_PRETEND_VERSION=${HARNESS_VERSION}
+RUN uv pip install --no-cache-dir -e .
+COPY configs/ configs/
+COPY docker/prove_libero_ur5.py /app/prove_libero_ur5.py
+
+CMD ["run", "--config", "/workspace/configs/benchmarks/libero_ur5/smoke_test.yaml"]

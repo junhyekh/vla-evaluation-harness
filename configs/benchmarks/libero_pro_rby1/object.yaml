@@ -1,0 +1,29 @@
+# LIBERO-Pro Object family on the fixed-base RBY1 right arm (4 x 10 x 50).
+server:
+  url: "ws://localhost:8000"
+
+docker:
+  image: ghcr.io/allenai/vla-evaluation-harness/libero-pro-rby1:latest
+
+output_dir: "./results"
+
+benchmarks:
+  - &libero_pro_rby1
+    benchmark: "vla_eval.benchmarks.libero_rby1.benchmark:LIBERORBY1Benchmark"
+    subname: libero_object_object_rby1_right
+    episodes_per_task: 50
+    params: &object
+      suite: libero_object_object
+      max_steps: 280
+      seed: 7
+      num_steps_wait: 10
+
+  - <<: *libero_pro_rby1
+    subname: libero_object_swap_rby1_right
+    params: {<<: *object, suite: libero_object_swap}
+  - <<: *libero_pro_rby1
+    subname: libero_object_lan_rby1_right
+    params: {<<: *object, suite: libero_object_lan}
+  - <<: *libero_pro_rby1
+    subname: libero_object_task_rby1_right
+    params: {<<: *object, suite: libero_object_task}

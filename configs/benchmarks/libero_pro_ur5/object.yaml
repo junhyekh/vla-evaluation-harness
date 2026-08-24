@@ -1,0 +1,29 @@
+# LIBERO-Pro Object family on UR5e + Robotiq85 (4 x 10 x 50).
+server:
+  url: "ws://localhost:8000"
+
+docker:
+  image: ghcr.io/allenai/vla-evaluation-harness/libero-pro-ur5:latest
+
+output_dir: "./results"
+
+benchmarks:
+  - &libero_pro_ur5
+    benchmark: "vla_eval.benchmarks.libero_ur5.benchmark:LIBEROUR5Benchmark"
+    subname: libero_object_object_ur5e_robotiq85
+    episodes_per_task: 50
+    params: &object
+      suite: libero_object_object
+      max_steps: 280
+      seed: 7
+      num_steps_wait: 10
+
+  - <<: *libero_pro_ur5
+    subname: libero_object_swap_ur5e_robotiq85
+    params: {<<: *object, suite: libero_object_swap}
+  - <<: *libero_pro_ur5
+    subname: libero_object_lan_ur5e_robotiq85
+    params: {<<: *object, suite: libero_object_lan}
+  - <<: *libero_pro_ur5
+    subname: libero_object_task_ur5e_robotiq85
+    params: {<<: *object, suite: libero_object_task}

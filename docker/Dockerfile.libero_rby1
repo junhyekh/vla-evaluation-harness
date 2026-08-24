@@ -1,0 +1,26 @@
+ARG BASE_IMAGE=ghcr.io/allenai/vla-evaluation-harness/libero:latest
+FROM ${BASE_IMAGE}
+
+SHELL ["conda", "run", "-n", "libero", "/bin/bash", "-c"]
+
+# RBY1-A v1.2 geometry from the pinned MuJoCo Menagerie contribution.
+ARG RBY1_MODEL_REF=da76818e269b82289eba39808e2fb91d679d6994
+RUN git clone --filter=blob:none --no-checkout https://github.com/google-deepmind/mujoco_menagerie.git /app/mujoco_menagerie \
+    && cd /app/mujoco_menagerie \
+    && git sparse-checkout set rainbow_robotics_rby1 \
+    && git checkout "${RBY1_MODEL_REF}" \
+    && rm -rf .git
+
+COPY docker/prepare_rby1_right.py /tmp/prepare_rby1_right.py
+RUN python /tmp/prepare_rby1_right.py /app/mujoco_menagerie/rainbow_robotics_rby1 \
+    && rm /tmp/prepare_rby1_right.py \
+    && mkdir -p /app/libero/libero/datasets
+
+COPY src/ src/
+ARG HARNESS_VERSION=0.0.0
+ENV SETUPTOOLS_SCM_PRETEND_VERSION=${HARNESS_VERSION}
+RUN uv pip install --no-cache-dir -e .
+COPY configs/ configs/
+COPY docker/prove_libero_rby1.py /app/prove_libero_rby1.py
+
+CMD ["run", "--config", "/workspace/configs/benchmarks/libero_rby1/smoke_test.yaml"]

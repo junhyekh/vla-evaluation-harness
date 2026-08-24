@@ -24,6 +24,8 @@ in-process.  No external server required.
 from __future__ import annotations
 
 import logging
+import os
+import sys
 from typing import Any
 
 import numpy as np
@@ -36,6 +38,11 @@ from vla_eval.model_servers.predict import PredictModelServer
 
 logger = logging.getLogger(__name__)
 
+# Running this file directly puts its directory first on sys.path, where the
+# sibling lerobot.py would shadow OpenPI's installed ``lerobot`` dependency.
+_here = os.path.dirname(os.path.abspath(__file__))
+sys.path[:] = [p for p in sys.path if p and os.path.abspath(p) != _here]
+
 
 class Pi0ModelServer(PredictModelServer):
     """π₀ / π₀-FAST model server using OpenPI direct inference."""
@@ -44,6 +51,7 @@ class Pi0ModelServer(PredictModelServer):
         self,
         config_name: str = "pi05_libero",
         checkpoint: str | None = None,
+        norm_stats_checkpoint: str | None = None,
         image_key: str = "observation/image",
         wrist_image_key: str | None = "observation/wrist_image",
         state_key: str | None = "observation/state",
@@ -57,6 +65,7 @@ class Pi0ModelServer(PredictModelServer):
         super().__init__(chunk_size=chunk_size, action_ensemble=action_ensemble, **kwargs)
         self.config_name = config_name
         self.checkpoint = checkpoint
+        self.norm_stats_checkpoint = norm_stats_checkpoint
         self.image_key = image_key
         # CLI passes the string "None" when disabling; normalize to actual None
         self.wrist_image_key = None if wrist_image_key in (None, "None", "none") else wrist_image_key
@@ -65,13 +74,26 @@ class Pi0ModelServer(PredictModelServer):
         self.image_resolution = image_resolution
 
         from openpi.policies import policy_config
+        from openpi.shared import download
         from openpi.training import config as _config
 
         logger.info("Loading OpenPI config: %s", self.config_name)
         _cfg = _config.get_config(self.config_name)
         ckpt = checkpoint if checkpoint is not None else f"gs://openpi-assets/checkpoints/{self.config_name}"
+        ckpt_path = download.maybe_download(ckpt)
+        if "://" in ckpt and not (ckpt_path / "params" / "_METADATA").exists():
+            logger.warning("Replacing incomplete cached checkpoint: %s", ckpt_path)
+            ckpt_path = download.maybe_download(ckpt, force_download=True)
+        norm_stats = None
+        if norm_stats_checkpoint:
+            from openpi.training import checkpoints
+
+            data_config = _cfg.data.create(_cfg.assets_dirs, _cfg.model)
+            assets_dir = download.maybe_download(f"{norm_stats_checkpoint.rstrip('/')}/assets")
+            norm_stats = checkpoints.load_norm_stats(assets_dir, data_config.asset_id)
+            logger.info("Loaded normalization statistics from: %s", norm_stats_checkpoint)
         logger.info("Loading policy from checkpoint: %s", ckpt)
-        self._policy = policy_config.create_trained_policy(_cfg, ckpt)
+        self._policy = policy_config.create_trained_policy(_cfg, ckpt_path, norm_stats=norm_stats)
         logger.info("π₀ policy loaded successfully.")
 
     def _maybe_resize(self, img: np.ndarray) -> np.ndarray:

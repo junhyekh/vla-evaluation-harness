@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Recorded diagnostic evaluation of pi0.5 and pi0.5-LIBERO on Panda and RBY1 across LIBERO and LIBERO-Pro.">
-  <title>pi0.5 × LIBERO × RBY1 — recorded evaluation report</title>
+  <meta name="description" content="Recorded diagnostic evaluation of pi0.5 and pi0.5-LIBERO on Panda, RBY1, and UR5e across LIBERO and LIBERO-Pro.">
+  <title>pi0.5 × LIBERO cross-embodiment evaluation report</title>
   <style>
     :root {
       color-scheme: light;
@@ -157,6 +157,7 @@
         <a href="#results">Results</a>
         <a href="#evidence">Recorded evidence</a>
         <a href="#rby1">RBY1</a>
+        <a href="#ur5">UR5</a>
         <a href="#pro">LIBERO-Pro</a>
         <a href="#reproduce">Reproduce</a>
       </nav>
@@ -166,16 +167,16 @@
   <div class="hero" id="top">
     <div class="wrap">
       <p class="eyebrow">Recorded diagnostic · 24–25 August 2026</p>
-      <h1>pi0.5 × LIBERO × RBY1</h1>
-      <p class="hero-copy">Untouched pi0.5 base weights and pi0.5-LIBERO evaluated on the complete LIBERO-Object task order, using the default Panda and fixed-base RBY1 right arm, plus all four released LIBERO-Pro Object perturbations.</p>
+      <h1>pi0.5 × LIBERO × embodiment</h1>
+      <p class="hero-copy">Untouched pi0.5 base weights and pi0.5-LIBERO evaluated with the default Panda, fixed-base RBY1 right arm, and UR5e + Robotiq 85. UR5 tests whether a more similar tabletop industrial-arm setup recovers behavior without model finetuning.</p>
       <div class="chips" aria-label="Evaluation highlights">
-        <span class="chip">200 episodes</span>
-        <span class="chip">200 MP4 recordings</span>
+        <span class="chip">273 completed episodes</span>
+        <span class="chip">273 finalized MP4s</span>
         <span class="chip">0 runtime errors</span>
         <span class="chip">1 initial state per task</span>
         <span class="chip">RTX A6000</span>
       </div>
-      <p class="scope"><strong>Scope:</strong> this is a one-initial-state diagnostic slice, not the official 50-state LIBERO score. RBY1 is a non-official cross-embodiment evaluation and is reported separately from Panda.</p>
+      <p class="scope"><strong>Scope:</strong> this is a one-initial-state diagnostic slice, not the official 50-state LIBERO score. RBY1 and UR5 are non-official cross-embodiment evaluations and are reported separately from Panda. The base UR5 Pro run is explicitly partial.</p>
     </div>
   </div>
 
@@ -185,16 +186,16 @@
         <div class="section-head">
           <div>
             <p class="eyebrow">Outcome</p>
-            <h2>Fine-tuning transfers to Panda, not RBY1</h2>
+            <h2>Embodiment similarity recovers some transfer</h2>
           </div>
-          <p>pi0.5-LIBERO solved every normal Panda task in this slice and retained appearance and language robustness. It did not complete a single matched RBY1 task, despite active arm and gripper control.</p>
+          <p>pi0.5-LIBERO solved 32/50 Panda tasks, 0/50 RBY1 tasks, and 6/50 UR5 tasks. UR5 produces real grasps and placements, but remains far below the training embodiment.</p>
         </div>
 
         <div class="metrics">
-          <article class="metric"><strong>200/200</strong><span>episodes completed with no runtime or controller errors</span></article>
-          <article class="metric"><strong>0/100</strong><span>pi0.5 base successes across both embodiments</span></article>
+          <article class="metric"><strong>273</strong><span>completed episodes with no runtime or controller errors</span></article>
+          <article class="metric"><strong>0/123</strong><span>pi0.5 base successes in completed Panda, RBY1, and UR5 trials</span></article>
           <article class="metric"><strong>32/50</strong><span>pi0.5-LIBERO Panda successes: normal plus Pro</span></article>
-          <article class="metric"><strong>0/50</strong><span>pi0.5-LIBERO RBY1-right successes</span></article>
+          <article class="metric"><strong>6/50</strong><span>pi0.5-LIBERO UR5 successes versus 0/50 on RBY1</span></article>
         </div>
 
         <div class="table-shell">
@@ -203,8 +204,10 @@
             <tbody>
               <tr><td>pi0.5 base</td><td>Panda</td><td class="zero">0/10</td><td class="zero">0/10</td><td class="zero">0/10</td><td class="zero">0/10</td><td class="zero">0/10</td></tr>
               <tr><td>pi0.5 base</td><td>RBY1 right</td><td class="zero">0/10</td><td class="zero">0/10</td><td class="zero">0/10</td><td class="zero">0/10</td><td class="zero">0/10</td></tr>
+              <tr><td>pi0.5 base</td><td>UR5e + Robotiq 85</td><td class="zero">0/10</td><td class="zero">0/10</td><td class="zero">0/3 partial</td><td>not run</td><td>not run</td></tr>
               <tr><td>pi0.5-LIBERO</td><td>Panda</td><td class="perfect">10/10</td><td class="perfect">10/10</td><td>2/10</td><td class="perfect">9/10</td><td>1/10</td></tr>
               <tr><td>pi0.5-LIBERO</td><td>RBY1 right</td><td class="zero">0/10</td><td class="zero">0/10</td><td class="zero">0/10</td><td class="zero">0/10</td><td class="zero">0/10</td></tr>
+              <tr><td>pi0.5-LIBERO</td><td>UR5e + Robotiq 85</td><td>2/10</td><td class="zero">0/10</td><td>2/10</td><td class="zero">0/10</td><td>2/10</td></tr>
             </tbody>
           </table>
         </div>
@@ -316,6 +319,61 @@
       </div>
     </section>
 
+    <section id="ur5">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">UR5e + Robotiq 85 control</p>
+            <h2>The closer setup does better</h2>
+          </div>
+          <p>UR5 recovers 6/50 successes from the same pi0.5-LIBERO checkpoint that scored 0/50 on RBY1. This supports the similarity hypothesis, while the 32/50 Panda result shows a large remaining embodiment gap.</p>
+        </div>
+
+        <div class="rby-callout">
+          <div>
+            <h3>Native robot and gripper physics</h3>
+            <p>The adapter uses robosuite 1.4's native UR5e and stock Robotiq 85 geometry, joints, actuator, and contact model. Only gripper speed is set to 0.2 to match the Panda binary-gripper response time. The model still receives the same 8-D LIBERO state contract.</p>
+            <p><strong>Independent proof:</strong> the scripted controller grasps salad dressing, lifts it, transports it, and releases it in the basket in 210/280 actions.</p>
+          </div>
+          <div class="stat-list">
+            <div class="stat-row"><span>Reset jaw gap</span><strong>111.7 mm</strong></div>
+            <div class="stat-row"><span>Grasp jaw gap</span><strong>36.8 mm</strong></div>
+            <div class="stat-row"><span>Released jaw gap</span><strong>112.7 mm</strong></div>
+            <div class="stat-row"><span>pi0.5-LIBERO normal</span><strong>2/10</strong></div>
+            <div class="stat-row"><span>pi0.5-LIBERO Pro</span><strong>4/40</strong></div>
+          </div>
+        </div>
+
+        <div class="evidence-grid" style="margin-top: 30px">
+          <article class="evidence">
+            <video controls playsinline preload="metadata" aria-label="UR5e Robotiq controller proof"><source src="assets/pi05-libero-rby1/ur5-controller-proof-success.mp4" type="video/mp4">Your browser does not support MP4 video.</video>
+            <div class="evidence-body"><span class="tag">Success · controller proof</span><h3>Grasp mechanics are valid</h3><p>Open, approach, close, lift, transport, and release complete with the stock Robotiq contact geometry.</p><a class="timeline-link" href="assets/pi05-libero-rby1/ur5-controller-proof-timeline.png"><img loading="lazy" src="assets/pi05-libero-rby1/ur5-controller-proof-timeline.png" alt="UR5 controller proof timeline"></a><p class="timeline-note">Salad dressing · 210 actions · succeeded</p></div>
+          </article>
+
+          <article class="evidence">
+            <video controls playsinline preload="metadata" aria-label="pi0.5-LIBERO UR5 normal milk success"><source src="assets/pi05-libero-rby1/libero-ur5-normal-task7-success.mp4" type="video/mp4">Your browser does not support MP4 video.</video>
+            <div class="evidence-body"><span class="tag">Success · fine-tuned · UR5</span><h3>Model-driven placement</h3><p>The policy identifies the requested milk, establishes a stable grasp, transports it, and releases it in the basket.</p><a class="timeline-link" href="assets/pi05-libero-rby1/libero-ur5-normal-task7-timeline.png"><img loading="lazy" src="assets/pi05-libero-rby1/libero-ur5-normal-task7-timeline.png" alt="UR5 normal milk success timeline"></a><p class="timeline-note">Normal task 7 · 164 steps · succeeded</p></div>
+          </article>
+
+          <article class="evidence">
+            <video controls playsinline preload="metadata" aria-label="pi0.5-LIBERO UR5 wrong-object failure"><source src="assets/pi05-libero-rby1/libero-ur5-normal-task2-fail.mp4" type="video/mp4">Your browser does not support MP4 video.</video>
+            <div class="evidence-body"><span class="tag fail">Failure · fine-tuned · UR5</span><h3>Stable grasp, wrong object</h3><p>The policy carries the red/green can toward the basket instead of the requested salad-dressing bottle. This is grounding failure, not missing gripper actuation.</p><a class="timeline-link" href="assets/pi05-libero-rby1/libero-ur5-normal-task2-timeline.png"><img loading="lazy" src="assets/pi05-libero-rby1/libero-ur5-normal-task2-timeline.png" alt="UR5 wrong-object failure timeline"></a><p class="timeline-note">Normal task 2 · 280 steps · failed</p></div>
+          </article>
+        </div>
+
+        <div class="pro-grid" style="margin-top: 24px">
+          <article class="pro-card">
+            <video controls playsinline preload="metadata" aria-label="UR5 LIBERO-Pro swap success"><source src="assets/pi05-libero-rby1/libero-ur5-pro-swap-task2-success.mp4" type="video/mp4">Your browser does not support MP4 video.</video>
+            <div class="pro-copy"><span class="score">2/10</span><h3>Pro position swap</h3><p>Task 2 succeeds in 93 steps, demonstrating that some spatial rebinding survives on UR5.</p><a class="timeline-link" href="assets/pi05-libero-rby1/libero-ur5-pro-swap-task2-timeline.png"><img loading="lazy" src="assets/pi05-libero-rby1/libero-ur5-pro-swap-task2-timeline.png" alt="UR5 Pro swap success timeline"></a></div>
+          </article>
+          <article class="pro-card">
+            <video controls playsinline preload="metadata" aria-label="UR5 LIBERO-Pro task success"><source src="assets/pi05-libero-rby1/libero-ur5-pro-task-task2-success.mp4" type="video/mp4">Your browser does not support MP4 video.</video>
+            <div class="pro-copy"><span class="score">2/10</span><h3>Pro task rebinding</h3><p>Task 2 succeeds in 133 steps, showing that the policy can occasionally follow the changed object instruction.</p><a class="timeline-link" href="assets/pi05-libero-rby1/libero-ur5-pro-task-task2-timeline.png"><img loading="lazy" src="assets/pi05-libero-rby1/libero-ur5-pro-task-task2-timeline.png" alt="UR5 Pro task success timeline"></a></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
     <section id="pro">
       <div class="wrap">
         <div class="section-head">
@@ -360,8 +418,10 @@
           <p>Run from the repository root. Each model server stays live while four benchmark clients run concurrently. The model samples stochastically, so the protocol and artifacts reproduce; individual binary outcomes need not.</p>
         </div>
 
-        <details open><summary>1. Build the repaired RBY1 images</summary><div class="detail-body"><pre><code>docker/build.sh libero_rby1
-docker/build.sh libero_pro_rby1</code></pre></div></details>
+        <details open><summary>1. Build the cross-embodiment images</summary><div class="detail-body"><pre><code>docker/build.sh libero_rby1
+docker/build.sh libero_pro_rby1
+docker/build.sh libero_ur5
+docker/build.sh libero_pro_ur5</code></pre></div></details>
 
         <details><summary>2. Start the pi0.5 base server</summary><div class="detail-body"><pre><code>UV_CACHE_DIR=/tmp/uv-cache uv run --no-sync vla-eval serve \
   -c configs/model_servers/pi0/libero_base.yaml -v</code></pre></div></details>
@@ -386,7 +446,17 @@ wait</code></pre></div></details>
         <details><summary>4. Repeat with pi0.5-LIBERO</summary><div class="detail-body"><p>Stop the base server, start the fine-tuned server, set <code>RERUN_MODEL=pi05_libero</code>, and repeat the four commands above.</p><pre><code>UV_CACHE_DIR=/tmp/uv-cache uv run --no-sync vla-eval serve \
   -c configs/model_servers/pi0/libero.yaml -v</code></pre></div></details>
 
-        <details><summary>5. Restore ownership and merge artifacts</summary><div class="detail-body"><pre><code>docker run --rm -v "${PWD}/${RERUN_ROOT}:/data" --entrypoint chown \
+        <details><summary>5. Run UR5 normal and Pro</summary><div class="detail-body"><pre><code>uv run --no-sync vla-eval run -c configs/benchmarks/libero_ur5/object.yaml \
+  --shard-id 0 --num-shards 50 --eval-id ur5-${RERUN_MODEL}-normal-e0 \
+  --output-dir results/matrix_ur5_reproduction/${RERUN_MODEL}/ur5_normal \
+  --record-video -y -v
+
+uv run --no-sync vla-eval run -c configs/benchmarks/libero_pro_ur5/object.yaml \
+  --shard-id 0 --num-shards 50 --eval-id ur5-${RERUN_MODEL}-pro-e0 \
+  --output-dir results/matrix_ur5_reproduction/${RERUN_MODEL}/ur5_pro \
+  --record-video -y -v</code></pre></div></details>
+
+        <details><summary>6. Restore ownership and merge artifacts</summary><div class="detail-body"><pre><code>docker run --rm -v "${PWD}/${RERUN_ROOT}:/data" --entrypoint chown \
   ghcr.io/allenai/vla-evaluation-harness/base:latest \
   -R "$(id -u):$(id -g)" /data
 
@@ -399,7 +469,7 @@ find ${RERUN_ROOT} -name 'recording-*.sqlite' -print0 \
       <div class="wrap">
         <div class="section-head">
           <div><p class="eyebrow">Provenance</p><h2>Pinned inputs and artifact audit</h2></div>
-          <p>The tracked harness revision is paired with exact runtime image hashes because the evaluated RBY1 and LIBERO-Pro repairs were still working-tree changes at run time.</p>
+          <p>The tracked harness revision is paired with exact runtime image hashes because the evaluated RBY1, UR5, and LIBERO-Pro adapters were still working-tree changes at run time.</p>
         </div>
         <dl class="pins">
           <div><dt>Harness revision at start</dt><dd>e1ee9ad</dd></div>
@@ -411,9 +481,12 @@ find ${RERUN_ROOT} -name 'recording-*.sqlite' -print0 \
           <div><dt>LIBERO-Pro</dt><dd>eafdb809426b13153aa1e4c42d6601844217dfec</dd></div>
           <div><dt>Normal RBY1 image</dt><dd>sha256:453113e75925bdb591a2adb1f84be210efb9e1b2a59da1bbc488f97abf095378</dd></div>
           <div><dt>Pro RBY1 image</dt><dd>sha256:c929ffe4a35241de93bf61e9eedf7a219c6aa34568ce38a972f1025dc293990f</dd></div>
+          <div><dt>Normal UR5 image</dt><dd>sha256:a0534329c0d48ddc7136381618847d57fa8276e51b60891259c2d1490c1a6ca7</dd></div>
+          <div><dt>Pro UR5 image</dt><dd>sha256:15a860daca793d65a8fb1331e38e345e0434d22446817b04f04ad32bd0b98d55</dd></div>
+          <div><dt>UR5 stack</dt><dd>robosuite 1.4 · UR5e · Robotiq85Gripper</dd></div>
           <div><dt>Hardware</dt><dd>1× NVIDIA RTX A6000 · 48 GiB</dd></div>
         </dl>
-        <p class="audit"><strong>Artifact audit passed:</strong> 8 SQLite databases, 200 episode rows, 200 JSONL trajectories, 200 MP4 recordings, and 20 aggregate JSON files. Bundle size: 77,190,921 bytes.</p>
+        <p class="audit"><strong>Artifact audit passed:</strong> the original Panda/RBY1 bundle has 200 complete episodes. The UR5 addition has 73 completed rows, 73 JSONL trajectories, 73 finalized MP4s, four SQLite databases, and eight aggregate JSONs. One retained temporary MP4 marks the intentionally interrupted base-Pro run; it is not counted as an episode.</p>
       </div>
     </section>
   </main>

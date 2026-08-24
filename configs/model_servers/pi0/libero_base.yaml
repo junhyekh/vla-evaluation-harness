@@ -1,0 +1,7 @@
+# Zero-shot pi0.5: untouched base weights with the LIBERO action contract.
+# LIBERO normalization statistics are required to map normalized base outputs
+# into the simulator's 7-D action space; no model weights are fine-tuned.
+extends: libero.yaml
+args:
+  checkpoint: gs://openpi-assets/checkpoints/pi05_base
+  norm_stats_checkpoint: gs://openpi-assets/checkpoints/pi05_libero

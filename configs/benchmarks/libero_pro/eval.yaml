@@ -1,11 +1,5 @@
-# LIBERO-Pro evaluation (10 tasks × 50 episodes)
-#
-# Uses LIBERO-Pro's extended suites (object-replacement variants).
-# Available suites include libero_spatial_with_mug, libero_goal_with_red_stick,
-# libero_10_with_blue_stick, etc.
-#
-# For OOD perturbation suites (swap, lan, object, task, env), set
-# perturbation: <type> and pre-generate BDDL/init files via perturbation.py.
+# Official LIBERO-Pro order: 4 base suites × 4 released perturbations.
+# Each cell contains 10 tasks × 50 initial states = 8,000 episodes total.
 server:
   url: "ws://localhost:8000"
 
@@ -15,10 +9,61 @@ docker:
 output_dir: "./results"
 
 benchmarks:
-  - benchmark: "vla_eval.benchmarks.libero_pro.benchmark:LIBEROProBenchmark"
+  - &libero_pro
+    benchmark: "vla_eval.benchmarks.libero_pro.benchmark:LIBEROProBenchmark"
+    subname: libero_goal_object
     episodes_per_task: 50
-    params:
-      suite: libero_spatial_with_mug
+    params: &goal_object
+      suite: libero_goal
+      perturbation: object
       seed: 7
       num_steps_wait: 10
 
+  - <<: *libero_pro
+    subname: libero_goal_swap
+    params: {<<: *goal_object, perturbation: swap}
+  - <<: *libero_pro
+    subname: libero_goal_lan
+    params: {<<: *goal_object, perturbation: lan}
+  - <<: *libero_pro
+    subname: libero_goal_task
+    params: {<<: *goal_object, perturbation: task}
+
+  - <<: *libero_pro
+    subname: libero_spatial_object
+    params: {<<: *goal_object, suite: libero_spatial}
+  - <<: *libero_pro
+    subname: libero_spatial_swap
+    params: {<<: *goal_object, suite: libero_spatial, perturbation: swap}
+  - <<: *libero_pro
+    subname: libero_spatial_lan
+    params: {<<: *goal_object, suite: libero_spatial, perturbation: lan}
+  - <<: *libero_pro
+    subname: libero_spatial_task
+    params: {<<: *goal_object, suite: libero_spatial, perturbation: task}
+
+  - <<: *libero_pro
+    subname: libero_10_object
+    params: {<<: *goal_object, suite: libero_10}
+  - <<: *libero_pro
+    subname: libero_10_swap
+    params: {<<: *goal_object, suite: libero_10, perturbation: swap}
+  - <<: *libero_pro
+    subname: libero_10_lan
+    params: {<<: *goal_object, suite: libero_10, perturbation: lan}
+  - <<: *libero_pro
+    subname: libero_10_task
+    params: {<<: *goal_object, suite: libero_10, perturbation: task}
+
+  - <<: *libero_pro
+    subname: libero_object_object
+    params: {<<: *goal_object, suite: libero_object}
+  - <<: *libero_pro
+    subname: libero_object_swap
+    params: {<<: *goal_object, suite: libero_object, perturbation: swap}
+  - <<: *libero_pro
+    subname: libero_object_lan
+    params: {<<: *goal_object, suite: libero_object, perturbation: lan}
+  - <<: *libero_pro
+    subname: libero_object_task
+    params: {<<: *goal_object, suite: libero_object, perturbation: task}

@@ -51,7 +51,7 @@ class LIBEROProBenchmark(LIBEROBenchmark):
     Supports two usage patterns:
 
     1. **Direct suite name** — pass the full registered suite name via
-       ``suite`` with ``perturbation=None`` (default).  Works for any suite
+       ``suite`` with ``perturbation=None``.  Works for any suite
        that LIBERO-Pro registers, e.g. ``libero_spatial_with_mug``.
 
     2. **Base + perturbation** — pass a base suite (``libero_spatial``) plus
@@ -71,16 +71,24 @@ class LIBEROProBenchmark(LIBEROBenchmark):
         num_steps_wait: Dummy action steps at episode start (default 10).
         send_wrist_image: Include wrist camera image in observations.
         send_state: Include proprioceptive state.
+        absolute_action: Use absolute Cartesian actions instead of deltas.
+        max_steps: Override the base suite's episode horizon.
+        env_seed: Seed for ``env.seed()``; defaults to *seed*.
+        quat_no_antipodal: Match robosuite's quaternion conversion exactly.
     """
 
     def __init__(
         self,
-        suite: str = "libero_spatial_with_mug",
-        perturbation: str | None = None,
+        suite: str = "libero_goal",
+        perturbation: str | None = "object",
         seed: int = 7,
         num_steps_wait: int = 10,
         send_wrist_image: bool = False,
         send_state: bool = False,
+        absolute_action: bool = False,
+        max_steps: int | None = None,
+        env_seed: int | None = None,
+        quat_no_antipodal: bool = False,
     ) -> None:
         self._perturbation = self._resolve_perturbation(perturbation)
 
@@ -99,6 +107,10 @@ class LIBEROProBenchmark(LIBEROBenchmark):
             num_steps_wait=num_steps_wait,
             send_wrist_image=send_wrist_image,
             send_state=send_state,
+            absolute_action=absolute_action,
+            max_steps=max_steps,
+            env_seed=env_seed,
+            quat_no_antipodal=quat_no_antipodal,
         )
 
     @staticmethod
@@ -125,9 +137,10 @@ class LIBEROProBenchmark(LIBEROBenchmark):
 
     def get_metadata(self) -> dict[str, Any]:
         """Return metadata using the *base* suite's max_steps."""
-        return {
-            "max_steps": MAX_STEP_MAPPING.get(self._base_suite, 300),
-            "suite": self.suite,
-            "base_suite": self._base_suite,
-            "perturbation": self._perturbation or "none",
-        }
+        metadata = super().get_metadata()
+        metadata.update(
+            max_steps=self._max_steps or MAX_STEP_MAPPING.get(self._base_suite, 300),
+            base_suite=self._base_suite,
+            perturbation=self._perturbation or "none",
+        )
+        return metadata

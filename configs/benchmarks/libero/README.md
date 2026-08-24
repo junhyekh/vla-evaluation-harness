@@ -21,4 +21,6 @@ Tabletop manipulation benchmark (MuJoCo/robosuite). 4 standard suites + extensio
 | `10.yaml` | LIBERO-10 (10-task subset) | 10 | 50 |
 | `smoke_test.yaml` | Quick validation (1 task, 2 episodes) | 1 | 2 |
 
-See also: [LIBERO-Pro](../libero_pro/), [LIBERO-Plus](../libero_plus/), [LIBERO-Mem](../libero_mem/).
+See also: [LIBERO-Pro](../libero_pro/), [LIBERO-Plus](../libero_plus/),
+[LIBERO-Mem](../libero_mem/), [RBY1-right cross-embodiment](../libero_rby1/),
+and [UR5e + Robotiq85 cross-embodiment](../libero_ur5/).

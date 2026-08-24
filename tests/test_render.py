@@ -20,6 +20,8 @@ MUJOCO_CPU_BENCHMARKS = [
     "vla_eval.benchmarks.robocasa365.benchmark:RoboCasa365Benchmark",
     "vla_eval.benchmarks.libero.benchmark:LIBEROBenchmark",
     "vla_eval.benchmarks.libero_pro.benchmark:LIBEROProBenchmark",
+    "vla_eval.benchmarks.libero_rby1.benchmark:LIBERORBY1Benchmark",
+    "vla_eval.benchmarks.libero_ur5.benchmark:LIBEROUR5Benchmark",
     "vla_eval.benchmarks.libero_plus.benchmark:LIBEROPlusBenchmark",
     "vla_eval.benchmarks.libero_mem.benchmark:LIBEROMemBenchmark",
     "vla_eval.benchmarks.robocerebra.benchmark:RoboCerebraBenchmark",

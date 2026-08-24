@@ -10,5 +10,6 @@ Flow-matching VLA from Physical Intelligence. [Paper](https://arxiv.org/abs/2410
 
 | File | Benchmark | Checkpoint |
 |------|-----------|------------|
-| `libero.yaml` | LIBERO | π₀ |
+| `libero_base.yaml` | LIBERO | π₀.₅ base weights (zero-shot) |
+| `libero.yaml` | LIBERO | π₀.₅-LIBERO |
 | `libero_fast.yaml` | LIBERO | π₀-FAST |

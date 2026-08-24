@@ -13,7 +13,7 @@ RUN uv pip install --no-cache-dir "torch==2.1.0" \
 RUN uv pip install --no-cache-dir \
         numpy==1.22.4 mujoco==3.2.3 robosuite==1.4.0 bddl==1.0.1 \
         Pillow scipy h5py pyyaml termcolor future easydict hydra-core \
-        "gym>=0.21,<0.27" matplotlib \
+        "gym>=0.21,<0.27" matplotlib huggingface_hub==0.25.2 \
     && rm -rf ~/.cache/pip ~/.cache/uv
 
 # ── Clone LIBERO-PRO ──────────────────────────────────────────────
@@ -26,6 +26,20 @@ RUN mkdir -p /app/libero-pro \
     && git checkout -q FETCH_HEAD \
     && uv pip install --no-cache-dir --config-setting editable_mode=compat -e . \
     && rm -rf /app/libero-pro/.git ~/.cache/uv
+
+# ── Official pre-generated perturbation tasks and initial states ──
+# The pinned release contains object/swap/language/task for all four suites.
+# Environment perturbations are generated dynamically upstream and are not
+# included here until LIBERO-Pro publishes a reproducible snapshot.
+ARG LIBERO_PRO_DATA_REF=c86fc3b8293185a6f373677018ff3e37f8391602
+RUN python -c "from huggingface_hub import snapshot_download; snapshot_download(repo_id='zhouxueyang/LIBERO-Pro', repo_type='dataset', revision='${LIBERO_PRO_DATA_REF}', local_dir='/tmp/libero-pro-data', local_dir_use_symlinks=False, allow_patterns=['bddl_files/libero_*/*', 'init_files/libero_*/*'])" \
+    && cp -a /tmp/libero-pro-data/bddl_files/libero_{goal,spatial,10,object}_{object,swap,lan,task} /app/libero-pro/libero/libero/bddl_files/ \
+    && cp -a /tmp/libero-pro-data/init_files/libero_{goal,spatial,10,object}_{object,swap,lan,task} /app/libero-pro/libero/libero/init_files/ \
+    && for suite in goal spatial 10 object; do for perturbation in object swap lan task; do \
+        test "$(find /app/libero-pro/libero/libero/bddl_files/libero_${suite}_${perturbation} -name '*.bddl' | wc -l)" -eq 10; \
+        test "$(find /app/libero-pro/libero/libero/init_files/libero_${suite}_${perturbation} -name '*.pruned_init' | wc -l)" -eq 10; \
+    done; done \
+    && rm -rf /tmp/libero-pro-data /root/.cache/huggingface
 
 # ── Pre-create LIBERO config (suppress interactive prompt) ─────────
 RUN mkdir -p /root/.libero && printf '\
@@ -44,4 +58,4 @@ RUN uv pip install --no-cache-dir -e .
 COPY configs/ configs/
 
 ENTRYPOINT ["conda", "run", "--no-capture-output", "-n", "libero", "vla-eval"]
-CMD ["run", "--config", "/workspace/configs/libero_pro_eval.yaml"]
+CMD ["run", "--config", "/workspace/configs/benchmarks/libero_pro/eval.yaml"]
