@@ -1,0 +1,428 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Recorded diagnostic evaluation of pi0.5 and pi0.5-LIBERO on Panda and RBY1 across LIBERO and LIBERO-Pro.">
+  <title>pi0.5 × LIBERO × RBY1 — recorded evaluation report</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #182120;
+      --muted: #5d6a66;
+      --paper: #f5f2e9;
+      --card: #fffdf7;
+      --line: #d8d6cc;
+      --navy: #152a31;
+      --green: #2d725b;
+      --mint: #cce6d7;
+      --orange: #e07748;
+      --red: #b84d46;
+      --shadow: 0 18px 45px rgb(21 42 49 / 10%);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; background: var(--paper); color: var(--ink); line-height: 1.55; }
+    img, video { display: block; max-width: 100%; }
+    a { color: var(--green); text-underline-offset: .18em; }
+    a:hover { color: var(--orange); }
+    :focus-visible { outline: 3px solid var(--orange); outline-offset: 3px; }
+
+    .wrap { width: min(1160px, calc(100% - 40px)); margin-inline: auto; }
+    .eyebrow { margin: 0 0 .7rem; color: var(--green); font-size: .76rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
+    h1, h2, h3 { margin-top: 0; line-height: 1.1; letter-spacing: -.025em; }
+    h1 { max-width: 900px; margin-bottom: 1rem; font-size: clamp(2.35rem, 6vw, 5.7rem); }
+    h2 { margin-bottom: .75rem; font-size: clamp(1.8rem, 4vw, 3rem); }
+    h3 { margin-bottom: .55rem; font-size: 1.25rem; }
+    p { margin: 0 0 1rem; }
+
+    .topbar { position: sticky; z-index: 20; top: 0; border-bottom: 1px solid rgb(255 255 255 / 12%); background: rgb(21 42 49 / 94%); backdrop-filter: blur(14px); }
+    .topbar .wrap { display: flex; min-height: 58px; align-items: center; justify-content: space-between; gap: 24px; }
+    .brand { color: white; font-size: .87rem; font-weight: 800; letter-spacing: .08em; text-decoration: none; text-transform: uppercase; }
+    nav { display: flex; gap: 18px; overflow-x: auto; }
+    nav a { color: #d8e7e0; font-size: .82rem; font-weight: 700; text-decoration: none; white-space: nowrap; }
+    nav a:hover { color: white; }
+
+    .hero { position: relative; overflow: hidden; padding: clamp(70px, 11vw, 150px) 0 88px; background: var(--navy); color: white; }
+    .hero::before { position: absolute; inset: -35% -10% auto auto; width: 620px; height: 620px; border: 1px solid rgb(204 230 215 / 22%); border-radius: 50%; box-shadow: 0 0 0 80px rgb(204 230 215 / 3%), 0 0 0 180px rgb(204 230 215 / 2%); content: ""; }
+    .hero .wrap { position: relative; }
+    .hero .eyebrow { color: #93d1b7; }
+    .hero-copy { max-width: 760px; color: #d8e3df; font-size: clamp(1rem, 2vw, 1.25rem); }
+    .chips { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 28px; }
+    .chip { padding: 7px 11px; border: 1px solid rgb(255 255 255 / 17%); border-radius: 999px; background: rgb(255 255 255 / 7%); color: #edf4f1; font-size: .78rem; font-weight: 750; }
+    .scope { max-width: 900px; margin-top: 38px; padding: 18px 20px; border-left: 4px solid var(--orange); background: rgb(255 255 255 / 7%); color: #f3eee6; }
+
+    main section { padding: 88px 0; }
+    main section + section { border-top: 1px solid var(--line); }
+    .section-head { display: grid; grid-template-columns: minmax(0, 1fr) minmax(260px, 520px); gap: 42px; align-items: end; margin-bottom: 38px; }
+    .section-head > p { color: var(--muted); }
+
+    .metrics { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+    .metric { min-height: 155px; padding: 23px; border: 1px solid var(--line); border-radius: 18px; background: var(--card); box-shadow: var(--shadow); }
+    .metric strong { display: block; margin-bottom: 8px; color: var(--navy); font-size: clamp(2rem, 4vw, 3.35rem); line-height: 1; }
+    .metric span { color: var(--muted); font-size: .9rem; }
+
+    .table-shell { margin-top: 24px; overflow-x: auto; border: 1px solid var(--line); border-radius: 18px; background: var(--card); box-shadow: var(--shadow); }
+    table { width: 100%; min-width: 800px; border-collapse: collapse; }
+    th, td { padding: 15px 17px; border-bottom: 1px solid var(--line); text-align: left; }
+    th { background: #ebe8dd; color: var(--navy); font-size: .78rem; letter-spacing: .05em; text-transform: uppercase; }
+    td:first-child, td:nth-child(2) { font-weight: 750; }
+    tr:last-child td { border-bottom: 0; }
+    .perfect { color: var(--green); font-weight: 850; }
+    .zero { color: var(--red); }
+
+    .robustness { display: grid; grid-template-columns: 340px 1fr; gap: 34px; margin-top: 30px; padding: 28px; border-radius: 18px; background: var(--navy); color: white; }
+    .robustness p { color: #cbdad5; }
+    .bars { display: grid; gap: 12px; align-content: center; }
+    .bar-label { display: flex; justify-content: space-between; gap: 20px; margin-bottom: 5px; font-size: .82rem; font-weight: 750; }
+    .track { height: 12px; overflow: hidden; border-radius: 999px; background: rgb(255 255 255 / 12%); }
+    .fill { width: var(--score); height: 100%; border-radius: inherit; background: linear-gradient(90deg, #71c69f, #cce6d7); }
+
+    .evidence-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+    .evidence { overflow: hidden; border: 1px solid var(--line); border-radius: 18px; background: var(--card); box-shadow: var(--shadow); }
+    .evidence video { width: 100%; aspect-ratio: 1; background: #0b1518; object-fit: contain; }
+    .evidence-body { padding: 21px; }
+    .tag { display: inline-block; margin-bottom: 12px; padding: 5px 9px; border-radius: 999px; background: var(--mint); color: #164b39; font-size: .7rem; font-weight: 850; letter-spacing: .07em; text-transform: uppercase; }
+    .tag.fail { background: #f3d5ce; color: #7d2d2a; }
+    .timeline-link { display: block; margin-top: 17px; overflow: hidden; border: 1px solid var(--line); border-radius: 12px; }
+    .timeline-link img { width: 100%; transition: transform .2s ease; }
+    .timeline-link:hover img { transform: scale(1.015); }
+    .timeline-note { margin-top: 8px; color: var(--muted); font-size: .77rem; }
+
+    .rby-callout { display: grid; grid-template-columns: 1.1fr .9fr; gap: 38px; align-items: center; margin-top: 30px; padding: clamp(25px, 5vw, 50px); border-radius: 22px; background: #dce9df; }
+    .stat-list { display: grid; gap: 12px; }
+    .stat-row { display: flex; justify-content: space-between; gap: 18px; padding-bottom: 9px; border-bottom: 1px solid rgb(24 33 32 / 17%); }
+    .stat-row strong { color: var(--navy); }
+    .timeline-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-top: 22px; }
+    figure { margin: 0; }
+    figure a { display: block; overflow: hidden; border-radius: 13px; background: #e7e3d7; }
+    figure img { width: 100%; }
+    figcaption { margin-top: 7px; color: var(--muted); font-size: .78rem; }
+
+    .pro-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+    .pro-card { display: grid; grid-template-columns: minmax(200px, .75fr) minmax(0, 1fr); overflow: hidden; border: 1px solid var(--line); border-radius: 18px; background: var(--card); box-shadow: var(--shadow); }
+    .pro-card video { width: 100%; height: 100%; min-height: 315px; background: #0b1518; object-fit: contain; }
+    .pro-copy { padding: 24px; }
+    .score { color: var(--green); font-size: 2.25rem; font-weight: 900; letter-spacing: -.05em; }
+    .pro-copy .timeline-link { margin-top: 14px; }
+
+    details { margin-bottom: 14px; overflow: hidden; border: 1px solid var(--line); border-radius: 15px; background: var(--card); }
+    summary { padding: 18px 21px; cursor: pointer; color: var(--navy); font-weight: 800; }
+    summary:hover { background: #eeebe1; }
+    .detail-body { padding: 0 21px 21px; }
+    pre { margin: 0; overflow-x: auto; border-radius: 12px; background: #102126; color: #e7f0ec; padding: 18px; font: .8rem/1.55 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    .pins { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px 28px; margin: 0; }
+    .pins div { padding-bottom: 12px; border-bottom: 1px solid var(--line); }
+    .pins dt { color: var(--muted); font-size: .75rem; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; }
+    .pins dd { margin: 5px 0 0; overflow-wrap: anywhere; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: .82rem; }
+    .audit { margin-top: 28px; padding: 20px; border: 1px solid #a9cbb9; border-radius: 14px; background: #e5f2e9; }
+
+    footer { padding: 48px 0; background: var(--navy); color: #cbdad5; }
+    footer .wrap { display: flex; justify-content: space-between; gap: 24px; align-items: center; }
+    footer p { margin: 0; }
+    footer a { color: white; font-weight: 750; }
+
+    @media (max-width: 940px) {
+      .metrics, .evidence-grid { grid-template-columns: repeat(2, 1fr); }
+      .robustness, .rby-callout { grid-template-columns: 1fr; }
+      .pro-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 690px) {
+      .wrap { width: min(100% - 24px, 1160px); }
+      .topbar .wrap { min-height: 52px; }
+      nav { display: none; }
+      .hero { padding: 65px 0; }
+      main section { padding: 62px 0; }
+      .section-head, .metrics, .evidence-grid, .pro-card, .pins { grid-template-columns: 1fr; }
+      .section-head { gap: 12px; }
+      .pro-card video { min-height: auto; aspect-ratio: 1; }
+      .timeline-grid { grid-template-columns: 1fr; }
+      footer .wrap { display: block; }
+      footer p + p { margin-top: 10px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="#top">VLA evaluation report</a>
+      <nav aria-label="Report sections">
+        <a href="#results">Results</a>
+        <a href="#evidence">Recorded evidence</a>
+        <a href="#rby1">RBY1</a>
+        <a href="#pro">LIBERO-Pro</a>
+        <a href="#reproduce">Reproduce</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="hero" id="top">
+    <div class="wrap">
+      <p class="eyebrow">Recorded diagnostic · 24–25 August 2026</p>
+      <h1>pi0.5 × LIBERO × RBY1</h1>
+      <p class="hero-copy">Untouched pi0.5 base weights and pi0.5-LIBERO evaluated on the complete LIBERO-Object task order, using the default Panda and fixed-base RBY1 right arm, plus all four released LIBERO-Pro Object perturbations.</p>
+      <div class="chips" aria-label="Evaluation highlights">
+        <span class="chip">200 episodes</span>
+        <span class="chip">200 MP4 recordings</span>
+        <span class="chip">0 runtime errors</span>
+        <span class="chip">1 initial state per task</span>
+        <span class="chip">RTX A6000</span>
+      </div>
+      <p class="scope"><strong>Scope:</strong> this is a one-initial-state diagnostic slice, not the official 50-state LIBERO score. RBY1 is a non-official cross-embodiment evaluation and is reported separately from Panda.</p>
+    </div>
+  </div>
+
+  <main>
+    <section id="results">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Outcome</p>
+            <h2>Fine-tuning transfers to Panda, not RBY1</h2>
+          </div>
+          <p>pi0.5-LIBERO solved every normal Panda task in this slice and retained appearance and language robustness. It did not complete a single matched RBY1 task, despite active arm and gripper control.</p>
+        </div>
+
+        <div class="metrics">
+          <article class="metric"><strong>200/200</strong><span>episodes completed with no runtime or controller errors</span></article>
+          <article class="metric"><strong>0/100</strong><span>pi0.5 base successes across both embodiments</span></article>
+          <article class="metric"><strong>32/50</strong><span>pi0.5-LIBERO Panda successes: normal plus Pro</span></article>
+          <article class="metric"><strong>0/50</strong><span>pi0.5-LIBERO RBY1-right successes</span></article>
+        </div>
+
+        <div class="table-shell">
+          <table>
+            <thead><tr><th>Model</th><th>Embodiment</th><th>Normal</th><th>Pro object</th><th>Pro swap</th><th>Pro language</th><th>Pro task</th></tr></thead>
+            <tbody>
+              <tr><td>pi0.5 base</td><td>Panda</td><td class="zero">0/10</td><td class="zero">0/10</td><td class="zero">0/10</td><td class="zero">0/10</td><td class="zero">0/10</td></tr>
+              <tr><td>pi0.5 base</td><td>RBY1 right</td><td class="zero">0/10</td><td class="zero">0/10</td><td class="zero">0/10</td><td class="zero">0/10</td><td class="zero">0/10</td></tr>
+              <tr><td>pi0.5-LIBERO</td><td>Panda</td><td class="perfect">10/10</td><td class="perfect">10/10</td><td>2/10</td><td class="perfect">9/10</td><td>1/10</td></tr>
+              <tr><td>pi0.5-LIBERO</td><td>RBY1 right</td><td class="zero">0/10</td><td class="zero">0/10</td><td class="zero">0/10</td><td class="zero">0/10</td><td class="zero">0/10</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="robustness">
+          <div>
+            <p class="eyebrow">Panda robustness</p>
+            <h3>Spatial and task rebinding dominate the Pro failures</h3>
+            <p>Appearance and paraphrase changes largely hold. Swapping positions or changing the task-object binding collapses performance.</p>
+          </div>
+          <div class="bars" aria-label="pi0.5-LIBERO Panda success rates">
+            <div><div class="bar-label"><span>Normal</span><span>100%</span></div><div class="track"><div class="fill" style="--score: 100%"></div></div></div>
+            <div><div class="bar-label"><span>Pro object</span><span>100%</span></div><div class="track"><div class="fill" style="--score: 100%"></div></div></div>
+            <div><div class="bar-label"><span>Pro language</span><span>90%</span></div><div class="track"><div class="fill" style="--score: 90%"></div></div></div>
+            <div><div class="bar-label"><span>Pro swap</span><span>20%</span></div><div class="track"><div class="fill" style="--score: 20%"></div></div></div>
+            <div><div class="bar-label"><span>Pro task</span><span>10%</span></div><div class="track"><div class="fill" style="--score: 10%"></div></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="evidence">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Matched recordings</p>
+            <h2>Same task, three distinct outcomes</h2>
+          </div>
+          <p>These task-2 episodes separate model grounding from embodiment transfer. Open any timeline for a full-resolution 3×3 temporal contact sheet.</p>
+        </div>
+
+        <div class="evidence-grid">
+          <article class="evidence">
+            <video controls playsinline preload="metadata" aria-label="pi0.5 base Panda task 2 failure recording">
+              <source src="assets/pi05-libero-rby1/base-panda-normal-task2-fail.mp4" type="video/mp4">
+              Your browser does not support MP4 video.
+            </video>
+            <div class="evidence-body">
+              <span class="tag fail">Failure · base · Panda</span>
+              <h3>Wrong-object approach</h3>
+              <p>The base policy approaches and knocks the red carton instead of manipulating the requested green salad-dressing bottle. LIBERO normalization makes the action scale executable; it does not provide learned task grounding.</p>
+              <a class="timeline-link" href="assets/pi05-libero-rby1/base-panda-normal-task2-timeline.png"><img loading="lazy" src="assets/pi05-libero-rby1/base-panda-normal-task2-timeline.png" alt="Nine-frame timeline of the pi0.5 base Panda task 2 failure"></a>
+              <p class="timeline-note">Task 2 · episode 0 · failed</p>
+            </div>
+          </article>
+
+          <article class="evidence">
+            <video controls playsinline preload="metadata" aria-label="pi0.5-LIBERO Panda task 2 success recording">
+              <source src="assets/pi05-libero-rby1/libero-panda-normal-task2-success.mp4" type="video/mp4">
+              Your browser does not support MP4 video.
+            </video>
+            <div class="evidence-body">
+              <span class="tag">Success · fine-tuned · Panda</span>
+              <h3>Correct grasp and placement</h3>
+              <p>With the same benchmark task order, pi0.5-LIBERO identifies the requested bottle, establishes a grasp, transports it, and satisfies the placement predicate.</p>
+              <a class="timeline-link" href="assets/pi05-libero-rby1/libero-panda-normal-task2-timeline.png"><img loading="lazy" src="assets/pi05-libero-rby1/libero-panda-normal-task2-timeline.png" alt="Nine-frame timeline of the pi0.5-LIBERO Panda task 2 success"></a>
+              <p class="timeline-note">Task 2 · episode 0 · succeeded</p>
+            </div>
+          </article>
+
+          <article class="evidence">
+            <video controls playsinline preload="metadata" aria-label="pi0.5-LIBERO RBY1 task 2 failure recording">
+              <source src="assets/pi05-libero-rby1/libero-rby1-normal-task2-fail.mp4" type="video/mp4">
+              Your browser does not support MP4 video.
+            </video>
+            <div class="evidence-body">
+              <span class="tag fail">Failure · fine-tuned · RBY1</span>
+              <h3>Motion without stable pickup</h3>
+              <p>The RBY1 arm and jaw respond, but the transferred policy does not establish a stable grasp. The failure reaches the 280-step horizon with no simulator or controller error.</p>
+              <a class="timeline-link" href="assets/pi05-libero-rby1/libero-rby1-normal-task2-timeline.png"><img loading="lazy" src="assets/pi05-libero-rby1/libero-rby1-normal-task2-timeline.png" alt="Nine-frame timeline of the pi0.5-LIBERO RBY1 task 2 failure"></a>
+              <p class="timeline-note">Task 2 · episode 0 · failed</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="rby1">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">RBY1 failure mode</p>
+            <h2>The gripper works; transfer does not</h2>
+          </div>
+          <p>All 50 pi0.5-LIBERO RBY1 failures timed out at 280 steps. The controller, arm, and jaw were active, so a frozen or incorrectly shaped gripper is not a sufficient explanation.</p>
+        </div>
+
+        <div class="rby-callout">
+          <div>
+            <h3>Observed controller evidence</h3>
+            <p>Across the 10 normal RBY1 episodes, the arm travels meaningful distances and repeatedly commands the gripper closed. Videos show near-object reaching and premature basket motion, but no robust pre-grasp and pickup.</p>
+            <p><strong>Interpretation:</strong> the dominant gap is Panda-to-RBY1 viewpoint, proprioceptive state, pre-grasp geometry, and action-dynamics transfer—not absent jaw actuation.</p>
+          </div>
+          <div class="stat-list">
+            <div class="stat-row"><span>Median end-effector path</span><strong>0.998 m</strong></div>
+            <div class="stat-row"><span>Close-command occupancy</span><strong>36.8–60.4%</strong></div>
+            <div class="stat-row"><span>Jaw gap, open</span><strong>≈ 85.6 mm</strong></div>
+            <div class="stat-row"><span>Jaw gap, closed</span><strong>≈ 33.6 mm</strong></div>
+            <div class="stat-row"><span>Runtime/controller errors</span><strong>0</strong></div>
+          </div>
+        </div>
+
+        <div class="timeline-grid">
+          <figure><a href="assets/pi05-libero-rby1/libero-rby1-normal-task0-timeline.png"><img loading="lazy" src="assets/pi05-libero-rby1/libero-rby1-normal-task0-timeline.png" alt="RBY1 normal task 0 nine-frame timeline"></a><figcaption>Normal task 0 · unsuccessful approach sequence</figcaption></figure>
+          <figure><a href="assets/pi05-libero-rby1/libero-rby1-normal-task2-timeline.png"><img loading="lazy" src="assets/pi05-libero-rby1/libero-rby1-normal-task2-timeline.png" alt="RBY1 normal task 2 nine-frame timeline"></a><figcaption>Normal task 2 · jaw motion without stable pickup</figcaption></figure>
+          <figure><a href="assets/pi05-libero-rby1/libero-rby1-normal-task4-timeline.png"><img loading="lazy" src="assets/pi05-libero-rby1/libero-rby1-normal-task4-timeline.png" alt="RBY1 normal task 4 nine-frame timeline"></a><figcaption>Normal task 4 · cross-task embodiment failure</figcaption></figure>
+          <figure><a href="assets/pi05-libero-rby1/libero-rby1-normal-task9-timeline.png"><img loading="lazy" src="assets/pi05-libero-rby1/libero-rby1-normal-task9-timeline.png" alt="RBY1 normal task 9 nine-frame timeline"></a><figcaption>Normal task 9 · horizon reached without task completion</figcaption></figure>
+        </div>
+      </div>
+    </section>
+
+    <section id="pro">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">LIBERO-Pro · Panda</p>
+            <h2>Appearance holds; rebinding breaks</h2>
+          </div>
+          <p>Representative recordings make the result more specific than a score: object appearance is robust, language mostly transfers, and the weakest cases expose position and original-task shortcuts.</p>
+        </div>
+
+        <div class="pro-grid">
+          <article class="pro-card">
+            <video controls playsinline preload="metadata" aria-label="LIBERO-Pro object task 2 success recording"><source src="assets/pi05-libero-rby1/libero-panda-pro-object-task2-success.mp4" type="video/mp4">Your browser does not support MP4 video.</video>
+            <div class="pro-copy"><span class="score">10/10</span><h3>Object appearance</h3><p>Appearance perturbations do not hurt this slice. The policy still selects and places the requested object.</p><a class="timeline-link" href="assets/pi05-libero-rby1/libero-panda-pro-object-task2-timeline.png"><img loading="lazy" src="assets/pi05-libero-rby1/libero-panda-pro-object-task2-timeline.png" alt="LIBERO-Pro object task 2 success timeline"></a></div>
+          </article>
+
+          <article class="pro-card">
+            <video controls playsinline preload="metadata" aria-label="LIBERO-Pro language task 2 failure recording"><source src="assets/pi05-libero-rby1/libero-panda-pro-language-task2-fail.mp4" type="video/mp4">Your browser does not support MP4 video.</video>
+            <div class="pro-copy"><span class="score">9/10</span><h3>Language paraphrase</h3><p>The lone failure carries the correct bottle over the basket but never reaches the placement predicate: a placement/release failure, not an object-grounding failure.</p><a class="timeline-link" href="assets/pi05-libero-rby1/libero-panda-pro-language-task2-timeline.png"><img loading="lazy" src="assets/pi05-libero-rby1/libero-panda-pro-language-task2-timeline.png" alt="LIBERO-Pro language task 2 failure timeline"></a></div>
+          </article>
+
+          <article class="pro-card">
+            <video controls playsinline preload="metadata" aria-label="LIBERO-Pro swap task 2 failure recording"><source src="assets/pi05-libero-rby1/libero-panda-pro-swap-task2-fail.mp4" type="video/mp4">Your browser does not support MP4 video.</video>
+            <div class="pro-copy"><span class="score">2/10</span><h3>Position swap</h3><p>The policy deposits the swapped red/green can and leaves the requested salad-dressing bottle untouched. This is consistent with a positional shortcut.</p><a class="timeline-link" href="assets/pi05-libero-rby1/libero-panda-pro-swap-task2-timeline.png"><img loading="lazy" src="assets/pi05-libero-rby1/libero-panda-pro-swap-task2-timeline.png" alt="LIBERO-Pro swap task 2 failure timeline"></a></div>
+          </article>
+
+          <article class="pro-card">
+            <video controls playsinline preload="metadata" aria-label="LIBERO-Pro task perturbation task 2 failure recording"><source src="assets/pi05-libero-rby1/libero-panda-pro-task-task2-fail.mp4" type="video/mp4">Your browser does not support MP4 video.</video>
+            <div class="pro-copy"><span class="score">1/10</span><h3>Task rebinding</h3><p>The instruction requests tomato sauce, but the policy picks the green salad-dressing bottle tied to the original task index. Original scene/task binding overrides the changed instruction.</p><a class="timeline-link" href="assets/pi05-libero-rby1/libero-panda-pro-task-task2-timeline.png"><img loading="lazy" src="assets/pi05-libero-rby1/libero-panda-pro-task-task2-timeline.png" alt="LIBERO-Pro task perturbation task 2 failure timeline"></a></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="reproduce">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Reproduction</p>
+            <h2>Run the recorded protocol</h2>
+          </div>
+          <p>Run from the repository root. Each model server stays live while four benchmark clients run concurrently. The model samples stochastically, so the protocol and artifacts reproduce; individual binary outcomes need not.</p>
+        </div>
+
+        <details open><summary>1. Build the repaired RBY1 images</summary><div class="detail-body"><pre><code>docker/build.sh libero_rby1
+docker/build.sh libero_pro_rby1</code></pre></div></details>
+
+        <details><summary>2. Start the pi0.5 base server</summary><div class="detail-body"><pre><code>UV_CACHE_DIR=/tmp/uv-cache uv run --no-sync vla-eval serve \
+  -c configs/model_servers/pi0/libero_base.yaml -v</code></pre></div></details>
+
+        <details><summary>3. Run the four evaluation cells concurrently</summary><div class="detail-body"><pre><code>RERUN_ROOT=results/matrix_rby1_fixed_reproduction
+RERUN_MODEL=pi05_base
+
+uv run --no-sync vla-eval run -c configs/benchmarks/libero/object.yaml \
+  --shard-id 0 --num-shards 50 --eval-id rerun-rby1fix-${RERUN_MODEL}-panda-normal-e0 \
+  --output-dir ${RERUN_ROOT}/${RERUN_MODEL}/panda_normal --record-video -y -v &amp;
+uv run --no-sync vla-eval run -c configs/benchmarks/libero_rby1/object.yaml \
+  --shard-id 0 --num-shards 50 --eval-id rerun-rby1fix-${RERUN_MODEL}-rby1-normal-e0 \
+  --output-dir ${RERUN_ROOT}/${RERUN_MODEL}/rby1_normal --record-video -y -v &amp;
+uv run --no-sync vla-eval run -c configs/benchmarks/libero_pro/object.yaml \
+  --shard-id 0 --num-shards 50 --eval-id rerun-rby1fix-${RERUN_MODEL}-panda-pro-e0 \
+  --output-dir ${RERUN_ROOT}/${RERUN_MODEL}/panda_pro --record-video -y -v &amp;
+uv run --no-sync vla-eval run -c configs/benchmarks/libero_pro_rby1/object.yaml \
+  --shard-id 0 --num-shards 50 --eval-id rerun-rby1fix-${RERUN_MODEL}-rby1-pro-e0 \
+  --output-dir ${RERUN_ROOT}/${RERUN_MODEL}/rby1_pro --record-video -y -v &amp;
+wait</code></pre></div></details>
+
+        <details><summary>4. Repeat with pi0.5-LIBERO</summary><div class="detail-body"><p>Stop the base server, start the fine-tuned server, set <code>RERUN_MODEL=pi05_libero</code>, and repeat the four commands above.</p><pre><code>UV_CACHE_DIR=/tmp/uv-cache uv run --no-sync vla-eval serve \
+  -c configs/model_servers/pi0/libero.yaml -v</code></pre></div></details>
+
+        <details><summary>5. Restore ownership and merge artifacts</summary><div class="detail-body"><pre><code>docker run --rm -v "${PWD}/${RERUN_ROOT}:/data" --entrypoint chown \
+  ghcr.io/allenai/vla-evaluation-harness/base:latest \
+  -R "$(id -u):$(id -g)" /data
+
+find ${RERUN_ROOT} -name 'recording-*.sqlite' -print0 \
+  | xargs -0 -n1 uv run --no-sync vla-eval merge --db</code></pre></div></details>
+      </div>
+    </section>
+
+    <section id="provenance">
+      <div class="wrap">
+        <div class="section-head">
+          <div><p class="eyebrow">Provenance</p><h2>Pinned inputs and artifact audit</h2></div>
+          <p>The tracked harness revision is paired with exact runtime image hashes because the evaluated RBY1 and LIBERO-Pro repairs were still working-tree changes at run time.</p>
+        </div>
+        <dl class="pins">
+          <div><dt>Harness revision at start</dt><dd>e1ee9ad</dd></div>
+          <div><dt>OpenPI revision</dt><dd>981483dca0fd9acba698fea00aa6e52d56a66c58</dd></div>
+          <div><dt>Base checkpoint</dt><dd>gs://openpi-assets/checkpoints/pi05_base</dd></div>
+          <div><dt>Base normalization stats</dt><dd>gs://openpi-assets/checkpoints/pi05_libero</dd></div>
+          <div><dt>Fine-tuned checkpoint</dt><dd>gs://openpi-assets/checkpoints/pi05_libero</dd></div>
+          <div><dt>MuJoCo Menagerie RBY1</dt><dd>da76818e269b82289eba39808e2fb91d679d6994</dd></div>
+          <div><dt>LIBERO-Pro</dt><dd>eafdb809426b13153aa1e4c42d6601844217dfec</dd></div>
+          <div><dt>Normal RBY1 image</dt><dd>sha256:453113e75925bdb591a2adb1f84be210efb9e1b2a59da1bbc488f97abf095378</dd></div>
+          <div><dt>Pro RBY1 image</dt><dd>sha256:c929ffe4a35241de93bf61e9eedf7a219c6aa34568ce38a972f1025dc293990f</dd></div>
+          <div><dt>Hardware</dt><dd>1× NVIDIA RTX A6000 · 48 GiB</dd></div>
+        </dl>
+        <p class="audit"><strong>Artifact audit passed:</strong> 8 SQLite databases, 200 episode rows, 200 JSONL trajectories, 200 MP4 recordings, and 20 aggregate JSON files. Bundle size: 77,190,921 bytes.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <p>Diagnostic evidence report · vla-evaluation-harness</p>
+      <p><a href="pi05-libero-rby1.md">Read the source reproduction report</a></p>
+    </div>
+  </footer>
+</body>
+</html>
