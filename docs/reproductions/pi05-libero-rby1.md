@@ -122,6 +122,19 @@ docker run --rm --gpus all \
   --video-dir /workspace/results
 ```
 
+Run the equivalent RBY1 rule-based proof. It uses simulator object poses and
+deterministic Cartesian waypoints; no VLA observation or action is used:
+
+```bash
+mkdir -p results/rby1_ruleproof
+docker run --rm --gpus all \
+  -v "${PWD}/results/rby1_ruleproof:/workspace/results" \
+  --entrypoint conda \
+  ghcr.io/allenai/vla-evaluation-harness/libero-rby1:latest \
+  run --no-capture-output -n libero python /app/prove_libero_rby1.py \
+  --video-dir /workspace/results
+```
+
 Docker creates the episode directories as an unmapped user. Restore ownership,
 then materialize per-episode JSONL and aggregate JSON from every SQLite file:
 
@@ -184,6 +197,25 @@ toward the basket without establishing a stable pickup. The dominant failure is
 therefore Panda-to-RBY1 viewpoint, state, pre-grasp, and action-dynamics
 transfer—not incorrect jaw shape or absent gripper actuation.
 
+The stronger setup-isolation test also passes. On LIBERO-Object task 2,
+initial-state 0—the same salad-dressing task included in the model matrix—a
+rule-based controller reads the simulator object and basket poses, executes
+fixed Cartesian waypoints, and satisfies the unmodified LIBERO success
+predicate in **224/280 actions**. It first asserts that all RBY1 hand/finger
+collision geoms are meshes. The recorded sequence shows open approach, mesh
+contact, jaw closure, a 0.191 m object lift, transport over the basket, release,
+and predicate success. It uses no pi0.5 observation or action.
+
+This proves that the tested RBY1 robot, right-arm OSC controller, mesh gripper,
+contact model, workspace placement, and task predicate can complete this
+representative task. It does not certify every RBY1 task or remove the
+cross-embodiment observation/state mismatch; it does rule out “the setup cannot
+grasp and place at all” as an explanation for the policy's 0/50 result.
+
+Recorded evidence: [MP4](assets/pi05-libero-rby1/rby1-ruleproof-success.mp4),
+[nine-frame timeline](assets/pi05-libero-rby1/rby1-ruleproof-timeline.png), and
+[JSON stage record](assets/pi05-libero-rby1/rby1-ruleproof-success.json).
+
 ### Panda Pro exposes spatial and task-binding shortcuts
 
 - **Object appearance, 10/10:** appearance perturbation did not hurt this slice.
@@ -220,6 +252,45 @@ salad-dressing bottle, showing that the remaining failure can be object
 grounding rather than gripper actuation. Pro object and language remain 0/10,
 so appearance/paraphrase robustness observed on Panda does not survive the
 combined visual and morphology shift in this slice.
+
+### UR5 failure modes are dominated by non-target object selection
+
+For a quantitative audit, all 50 pi0.5-LIBERO UR5 JSONL action traces were
+replayed through the same simulator while logging every movable-object pose.
+Replay reproduced **50/50 recorded success/failure outcomes**. A stable lift is
+defined as more than 0.06 m above the object's initial height; delivery
+proximity is less than 0.13 m horizontal distance from the basket. The exact
+per-episode replay measurements are saved in
+[`ur5-failure-analysis.json`](assets/pi05-libero-rby1/ur5-failure-analysis.json).
+
+| Failure mode among 44 failures | Count | Share |
+|---|---:|---:|
+| Non-target object lifted while target never lifted | 32 | 72.7% |
+| No stable lift of any object | 8 | 18.2% |
+| Correct target lifted but never delivered | 2 | 4.5% |
+| Correct target reached basket area but placement/release failed | 2 | 4.5% |
+
+| Suite | Success | Non-target lift | No stable lift | Correct lift, no delivery | Delivery/release failure |
+|---|---:|---:|---:|---:|---:|
+| Normal | 2 | 4 | 4 | 0 | 0 |
+| Pro object | 0 | 7 | 1 | 2 | 0 |
+| Pro swap | 2 | 7 | 0 | 0 | 1 |
+| Pro language | 0 | 8 | 2 | 0 | 0 |
+| Pro task | 2 | 6 | 1 | 0 | 1 |
+
+The videos support the replay categories. Normal task 2 stably lifts tomato
+sauce instead of the requested salad dressing. Normal task 1 moves to the
+basket without a stable pickup. Pro-object task 1 lifts the requested red cream
+cheese but does not deliver it. Pro-task task 4 carries the requested milk to
+the basket, then displaces the basket by 0.063 m and never satisfies placement.
+Across all failures the basket moved more than 0.05 m in 9/44 episodes and more
+than 0.10 m in 5/44, a secondary collision/placement failure caused by the
+commanded trajectory.
+
+The main UR5 failure is therefore object grounding/selection, not inability of
+the Robotiq gripper to hold an object. Approach/grasp acquisition is the next
+largest class; transport and release account for only 4/44 failures after a
+correct stable lift.
 
 ## Limits
 

@@ -1,0 +1,768 @@
+[
+  {
+    "suite": "libero_object",
+    "task_id": 0,
+    "task": "pick the alphabet soup and place it in the basket",
+    "recorded_status": "fail",
+    "replay_success": false,
+    "mode": "wrong_object_lift",
+    "target": "alphabet_soup_1",
+    "target_max_lift_m": 0,
+    "target_min_basket_xy_m": 0.5098,
+    "lifted_other_objects": [
+      "butter_1"
+    ],
+    "max_other_lift_m": 0.2214,
+    "basket_xy_displacement_m": 0.1396
+  },
+  {
+    "suite": "libero_object",
+    "task_id": 1,
+    "task": "pick the cream cheese and place it in the basket",
+    "recorded_status": "fail",
+    "replay_success": false,
+    "mode": "no_stable_lift",
+    "target": "cream_cheese_1",
+    "target_max_lift_m": 0,
+    "target_min_basket_xy_m": 0.3739,
+    "lifted_other_objects": [],
+    "max_other_lift_m": 0.0078,
+    "basket_xy_displacement_m": 0
+  },
+  {
+    "suite": "libero_object",
+    "task_id": 2,
+    "task": "pick the salad dressing and place it in the basket",
+    "recorded_status": "fail",
+    "replay_success": false,
+    "mode": "wrong_object_lift",
+    "target": "salad_dressing_1",
+    "target_max_lift_m": 0,
+    "target_min_basket_xy_m": 0.3729,
+    "lifted_other_objects": [
+      "tomato_sauce_1"
+    ],
+    "max_other_lift_m": 0.1874,
+    "basket_xy_displacement_m": 0.019
+  },
+  {
+    "suite": "libero_object",
+    "task_id": 3,
+    "task": "pick the bbq sauce and place it in the basket",
+    "recorded_status": "fail",
+    "replay_success": false,
+    "mode": "wrong_object_lift",
+    "target": "bbq_sauce_1",
+    "target_max_lift_m": 0,
+    "target_min_basket_xy_m": 0.3477,
+    "lifted_other_objects": [
+      "cream_cheese_1"
+    ],
+    "max_other_lift_m": 0.1997,
+    "basket_xy_displacement_m": 0.0004
+  },
+  {
+    "suite": "libero_object",
+    "task_id": 4,
+    "task": "pick the ketchup and place it in the basket",
+    "recorded_status": "fail",
+    "replay_success": false,
+    "mode": "no_stable_lift",
+    "target": "ketchup_1",
+    "target_max_lift_m": 0.0071,
+    "target_min_basket_xy_m": 0.5224,
+    "lifted_other_objects": [],
+    "max_other_lift_m": 0.0214,
+    "basket_xy_displacement_m": 0
+  },
+  {
+    "suite": "libero_object",
+    "task_id": 5,
+    "task": "pick the tomato sauce and place it in the basket",
+    "recorded_status": "fail",
+    "replay_success": false,
+    "mode": "no_stable_lift",
+    "target": "tomato_sauce_1",
+    "target_max_lift_m": 0.0569,
+    "target_min_basket_xy_m": 0.3657,
+    "lifted_other_objects": [],
+    "max_other_lift_m": 0.0062,
+    "basket_xy_displacement_m": 0
+  },
+  {
+    "suite": "libero_object",
+    "task_id": 6,
+    "task": "pick the butter and place it in the basket",
+    "recorded_status": "fail",
+    "replay_success": false,
+    "mode": "no_stable_lift",
+    "target": "butter_1",
+    "target_max_lift_m": 0,
+    "target_min_basket_xy_m": 0.5252,
+    "lifted_other_objects": [],
+    "max_other_lift_m": 0.0003,
+    "basket_xy_displacement_m": 0
+  },
+  {
+    "suite": "libero_object",
+    "task_id": 7,
+    "task": "pick the milk and place it in the basket",
+    "recorded_status": "success",
+    "replay_success": true,
+    "mode": "success",
+    "target": "milk_1",
+    "target_max_lift_m": 0.2117,
+    "target_min_basket_xy_m": 0.0138,
+    "lifted_other_objects": [],
+    "max_other_lift_m": 0,
+    "basket_xy_displacement_m": 0
+  },
+  {
+    "suite": "libero_object",
+    "task_id": 8,
+    "task": "pick the chocolate pudding and place it in the basket",
+    "recorded_status": "success",
+    "replay_success": true,
+    "mode": "success",
+    "target": "chocolate_pudding_1",
+    "target_max_lift_m": 0.2257,
+    "target_min_basket_xy_m": 0.0138,
+    "lifted_other_objects": [],
+    "max_other_lift_m": 0.0136,
+    "basket_xy_displacement_m": 0
+  },
+  {
+    "suite": "libero_object",
+    "task_id": 9,
+    "task": "pick the orange juice and place it in the basket",
+    "recorded_status": "fail",
+    "replay_success": false,
+    "mode": "wrong_object_lift",
+    "target": "orange_juice_1",
+    "target_max_lift_m": 0,
+    "target_min_basket_xy_m": 0.3513,
+    "lifted_other_objects": [
+      "salad_dressing_1"
+    ],
+    "max_other_lift_m": 0.1581,
+    "basket_xy_displacement_m": 0.0598
+  },
+  {
+    "suite": "libero_object_object",
+    "task_id": 0,
+    "task": "pick the alphabet soup and place it in the basket",
+    "recorded_status": "fail",
+    "replay_success": false,
+    "mode": "wrong_object_lift",
+    "target": "bigger_alphabet_soup_1",
+    "target_max_lift_m": 0,
+    "target_min_basket_xy_m": 0.5069,
+    "lifted_other_objects": [
+      "butter_1"
+    ],
+    "max_other_lift_m": 0.1833,
+    "basket_xy_displacement_m": 0
+  },
+  {
+    "suite": "libero_object_object",
+    "task_id": 1,
+    "task": "pick the cream cheese and place it in the basket",
+    "recorded_status": "fail",
+    "replay_success": false,
+    "mode": "correct_object_lift_without_delivery",
+    "target": "red_cream_cheese_1",
+    "target_max_lift_m": 0.141,
+    "target_min_basket_xy_m": 0.3486,
+    "lifted_other_objects": [],
+    "max_other_lift_m": 0.017,
+    "basket_xy_displacement_m": 0
+  },
+  {
+    "suite": "libero_object_object",
+    "task_id": 2,
+    "task": "pick the salad dressing and place it in the basket",
+    "recorded_status": "fail",
+    "replay_success": false,
+    "mode": "wrong_object_lift",
+    "target": "red_salad_dressing_1",
+    "target_max_lift_m": 0,
+    "target_min_basket_xy_m": 0.3698,
+    "lifted_other_objects": [
+      "tomato_sauce_1"
+    ],
+    "max_other_lift_m": 0.1752,
+    "basket_xy_displacement_m": 0.0144
+  },
+  {
+    "suite": "libero_object_object",
+    "task_id": 3,
+    "task": "pick the bbq sauce and place it in the basket",
+    "recorded_status": "fail",
+    "replay_success": false,
+    "mode": "wrong_object_lift",
+    "target": "green_bbq_sauce_1",
+    "target_max_lift_m": 0,
+    "target_min_basket_xy_m": 0.3681,
+    "lifted_other_objects": [
+      "cream_cheese_1"
+    ],
+    "max_other_lift_m": 0.2137,
+    "basket_xy_displacement_m": 0
+  },
+  {
+    "suite": "libero_object_object",
+    "task_id": 4,
+    "task": "pick the ketchup and place it in the basket",
+    "recorded_status": "fail",
+    "replay_success": false,
+    "mode": "wrong_object_lift",
+    "target": "blue_ketchup_1",
+    "target_max_lift_m": 0.0018,
+    "target_min_basket_xy_m": 0.507,
+    "lifted_other_objects": [
+      "bbq_sauce_1"
+    ],
+    "max_other_lift_m": 0.1798,
+    "basket_xy_displacement_m": 0
+  },
+  {
+    "suite": "libero_object_object",
+    "task_id": 5,
+    "task": "pick the tomato sauce and place it in the basket",
+    "recorded_status": "fail",
+    "replay_success": false,
+    "mode": "wrong_object_lift",
+    "target": "yellow_tomato_sauce_1",
+    "target_max_lift_m": 0,
+    "target_min_basket_xy_m": 0.375,
+    "lifted_other_objects": [
+      "bbq_sauce_1"
+    ],
+    "max_other_lift_m": 0.1502,
+    "basket_xy_displacement_m": 0
+  },
+  {
+    "suite": "libero_object_object",
+    "task_id": 6,
+    "task": "pick the butter and place it in the basket",
+    "recorded_status": "fail",
+    "replay_success": false,
+    "mode": "no_stable_lift",
+    "target": "green_butter_1",
+    "target_max_lift_m": 0.012,
+    "target_min_basket_xy_m": 0.5124,
+    "lifted_other_objects": [],
+    "max_other_lift_m": 0.002,
+    "basket_xy_displacement_m": 0
+  },
+  {
+    "suite": "libero_object_object",
+    "task_id": 7,
+    "task": "pick the milk and place it in the basket",
+    "recorded_status": "fail",
+    "replay_success": false,
+    "mode": "wrong_object_lift",
+    "target": "yellow_milk_1",
+    "target_max_lift_m": 0,
+    "target_min_basket_xy_m": 0.5096,
+    "lifted_other_objects": [
+      "chocolate_pudding_1"
+    ],
+    "max_other_lift_m": 0.1879,
+    "basket_xy_displacement_m": 0.0163
+  },
+  {
+    "suite": "libero_object_object",
+    "task_id": 8,
+    "task": "pick the chocolate pudding and place it in the basket",
+    "recorded_status": "fail",
+    "replay_success": false,
+    "mode": "correct_object_lift_without_delivery",
+    "target": "green_chocolate_pudding_1",
+    "target_max_lift_m": 0.1368,
+    "target_min_basket_xy_m": 0.2609,
+    "lifted_other_objects": [],
+    "max_other_lift_m": 0.0118,
+    "basket_xy_displacement_m": 0
+  },
+  {
+    "suite": "libero_object_object",
+    "task_id": 9,
+    "task": "pick the orange juice and place it in the basket",
+    "recorded_status": "fail",
+    "replay_success": false,
+    "mode": "wrong_object_lift",
+    "target": "orange_juice_1",
+    "target_max_lift_m": 0,
+    "target_min_basket_xy_m": 0.3569,
+    "lifted_other_objects": [
+      "salad_dressing_1"
+    ],
+    "max_other_lift_m": 0.1408,
+    "basket_xy_displacement_m": 0.017
+  },
+  {
+    "suite": "libero_object_swap",
+    "task_id": 0,
+    "task": "pick the alphabet soup and place it in the basket",
+    "recorded_status": "success",
+    "replay_success": true,
+    "mode": "success",
+    "target": "alphabet_soup_1",
+    "target_max_lift_m": 0.1746,
+    "target_min_basket_xy_m": 0.0204,
+    "lifted_other_objects": [],
+    "max_other_lift_m": 0,
+    "basket_xy_displacement_m": 0.0044
+  },
+  {
+    "suite": "libero_object_swap",
+    "task_id": 1,
+    "task": "pick the cream cheese and place it in the basket",
+    "recorded_status": "fail",
+    "replay_success": false,
+    "mode": "wrong_object_lift",
+    "target": "cream_cheese_1",
+    "target_max_lift_m": 0,
+    "target_min_basket_xy_m": 0.5201,
+    "lifted_other_objects": [
+      "orange_juice_1"
+    ],
+    "max_other_lift_m": 0.1003,
+    "basket_xy_displacement_m": 0
+  },
+  {
+    "suite": "libero_object_swap",
+    "task_id": 2,
+    "task": "pick the salad dressing and place it in the basket",
+    "recorded_status": "success",
+    "replay_success": true,
+    "mode": "success",
+    "target": "salad_dressing_1",
+    "target_max_lift_m": 0.1431,
+    "target_min_basket_xy_m": 0.0565,
+    "lifted_other_objects": [],
+    "max_other_lift_m": 0,
+    "basket_xy_displacement_m": 0.0067
+  },
+  {
+    "suite": "libero_object_swap",
+    "task_id": 3,
+    "task": "pick the bbq sauce and place it in the basket",
+    "recorded_status": "fail",
+    "replay_success": false,
+    "mode": "wrong_object_lift",
+    "target": "bbq_sauce_1",
+    "target_max_lift_m": 0,
+    "target_min_basket_xy_m": 0.5133,
+    "lifted_other_objects": [
+      "cream_cheese_1"
+    ],
+    "max_other_lift_m": 0.1864,
+    "basket_xy_displacement_m": 0
+  },
+  {
+    "suite": "libero_object_swap",
+    "task_id": 4,
+    "task": "pick the ketchup and place it in the basket",
+    "recorded_status": "fail",
+    "replay_success": false,
+    "mode": "wrong_object_lift",
+    "target": "ketchup_1",
+    "target_max_lift_m": 0,
+    "target_min_basket_xy_m": 0.2199,
+    "lifted_other_objects": [
+      "milk_1"
+    ],
+    "max_other_lift_m": 0.1604,
+    "basket_xy_displacement_m": 0.0986
+  },
+  {
+    "suite": "libero_object_swap",
+    "task_id": 5,
+    "task": "pick the tomato sauce and place it in the basket",
+    "recorded_status": "fail",
+    "replay_success": false,
+    "mode": "wrong_object_lift",
+    "target": "tomato_sauce_1",
+    "target_max_lift_m": 0,
+    "target_min_basket_xy_m": 0.4968,
+    "lifted_other_objects": [
+      "bbq_sauce_1"
+    ],
+    "max_other_lift_m": 0.129,
+    "basket_xy_displacement_m": 0.0373
+  },
+  {
+    "suite": "libero_object_swap",
+    "task_id": 6,
+    "task": "pick the butter and place it in the basket",
+    "recorded_status": "fail",
+    "replay_success": false,
+    "mode": "wrong_object_lift",
+    "target": "butter_1",
+    "target_max_lift_m": 0,
+    "target_min_basket_xy_m": 0.3474,
+    "lifted_other_objects": [
+      "ketchup_1"
+    ],
+    "max_other_lift_m": 0.0874,
+    "basket_xy_displacement_m": 0.1411
+  },
+  {
+    "suite": "libero_object_swap",
+    "task_id": 7,
+    "task": "pick the milk and place it in the basket",
+    "recorded_status": "fail",
+    "replay_success": false,
+    "mode": "wrong_object_lift",
+    "target": "milk_1",
+    "target_max_lift_m": 0,
+    "target_min_basket_xy_m": 0.3762,
+    "lifted_other_objects": [
+      "cream_cheese_1"
+    ],
+    "max_other_lift_m": 0.2423,
+    "basket_xy_displacement_m": 0
+  },
+  {
+    "suite": "libero_object_swap",
+    "task_id": 8,
+    "task": "pick the chocolate pudding and place it in the basket",
+    "recorded_status": "fail",
+    "replay_success": false,
+    "mode": "wrong_object_lift",
+    "target": "chocolate_pudding_1",
+    "target_max_lift_m": 0,
+    "target_min_basket_xy_m": 0.4644,
+    "lifted_other_objects": [
+      "alphabet_soup_1"
+    ],
+    "max_other_lift_m": 0.1562,
+    "basket_xy_displacement_m": 0.0049
+  },
+  {
+    "suite": "libero_object_swap",
+    "task_id": 9,
+    "task": "pick the orange juice and place it in the basket",
+    "recorded_status": "fail",
+    "replay_success": false,
+    "mode": "correct_object_delivery_or_release_failure",
+    "target": "orange_juice_1",
+    "target_max_lift_m": 0.1106,
+    "target_min_basket_xy_m": 0.0767,
+    "lifted_other_objects": [
+      "salad_dressing_1"
+    ],
+    "max_other_lift_m": 0.0639,
+    "basket_xy_displacement_m": 0.1493
+  },
+  {
+    "suite": "libero_object_lan",
+    "task_id": 0,
+    "task": "grab alphabet soup and put it into basket",
+    "recorded_status": "fail",
+    "replay_success": false,
+    "mode": "wrong_object_lift",
+    "target": "alphabet_soup_1",
+    "target_max_lift_m": 0,
+    "target_min_basket_xy_m": 0.5136,
+    "lifted_other_objects": [
+      "butter_1"
+    ],
+    "max_other_lift_m": 0.198,
+    "basket_xy_displacement_m": 0.0359
+  },
+  {
+    "suite": "libero_object_lan",
+    "task_id": 1,
+    "task": "grab cream cheese and put into basket",
+    "recorded_status": "fail",
+    "replay_success": false,
+    "mode": "wrong_object_lift",
+    "target": "cream_cheese_1",
+    "target_max_lift_m": 0,
+    "target_min_basket_xy_m": 0.3573,
+    "lifted_other_objects": [
+      "orange_juice_1"
+    ],
+    "max_other_lift_m": 0.0977,
+    "basket_xy_displacement_m": 0.022
+  },
+  {
+    "suite": "libero_object_lan",
+    "task_id": 2,
+    "task": "grab salad dressing and put into basket",
+    "recorded_status": "fail",
+    "replay_success": false,
+    "mode": "wrong_object_lift",
+    "target": "salad_dressing_1",
+    "target_max_lift_m": 0,
+    "target_min_basket_xy_m": 0.3754,
+    "lifted_other_objects": [
+      "tomato_sauce_1"
+    ],
+    "max_other_lift_m": 0.1738,
+    "basket_xy_displacement_m": 0
+  },
+  {
+    "suite": "libero_object_lan",
+    "task_id": 3,
+    "task": "pick up bbq sauce and put it into basket",
+    "recorded_status": "fail",
+    "replay_success": false,
+    "mode": "wrong_object_lift",
+    "target": "bbq_sauce_1",
+    "target_max_lift_m": 0,
+    "target_min_basket_xy_m": 0.3675,
+    "lifted_other_objects": [
+      "cream_cheese_1"
+    ],
+    "max_other_lift_m": 0.1905,
+    "basket_xy_displacement_m": 0.0009
+  },
+  {
+    "suite": "libero_object_lan",
+    "task_id": 4,
+    "task": "lift ketchup and put it in basket",
+    "recorded_status": "fail",
+    "replay_success": false,
+    "mode": "wrong_object_lift",
+    "target": "ketchup_1",
+    "target_max_lift_m": 0,
+    "target_min_basket_xy_m": 0.5015,
+    "lifted_other_objects": [
+      "milk_1"
+    ],
+    "max_other_lift_m": 0.1371,
+    "basket_xy_displacement_m": 0.104
+  },
+  {
+    "suite": "libero_object_lan",
+    "task_id": 5,
+    "task": "pick tomato sauce and put it in basket",
+    "recorded_status": "fail",
+    "replay_success": false,
+    "mode": "wrong_object_lift",
+    "target": "tomato_sauce_1",
+    "target_max_lift_m": 0,
+    "target_min_basket_xy_m": 0.3491,
+    "lifted_other_objects": [
+      "bbq_sauce_1"
+    ],
+    "max_other_lift_m": 0.5425,
+    "basket_xy_displacement_m": 0.0857
+  },
+  {
+    "suite": "libero_object_lan",
+    "task_id": 6,
+    "task": "grab butter and put it into basket",
+    "recorded_status": "fail",
+    "replay_success": false,
+    "mode": "no_stable_lift",
+    "target": "butter_1",
+    "target_max_lift_m": 0.0407,
+    "target_min_basket_xy_m": 0.5178,
+    "lifted_other_objects": [],
+    "max_other_lift_m": 0.0011,
+    "basket_xy_displacement_m": 0.0293
+  },
+  {
+    "suite": "libero_object_lan",
+    "task_id": 7,
+    "task": "grab milk and put into basket",
+    "recorded_status": "fail",
+    "replay_success": false,
+    "mode": "wrong_object_lift",
+    "target": "milk_1",
+    "target_max_lift_m": 0.0027,
+    "target_min_basket_xy_m": 0.517,
+    "lifted_other_objects": [
+      "chocolate_pudding_1"
+    ],
+    "max_other_lift_m": 0.2093,
+    "basket_xy_displacement_m": 0.0004
+  },
+  {
+    "suite": "libero_object_lan",
+    "task_id": 8,
+    "task": "lift chocolate pudding and put it in basket",
+    "recorded_status": "fail",
+    "replay_success": false,
+    "mode": "no_stable_lift",
+    "target": "chocolate_pudding_1",
+    "target_max_lift_m": 0.0376,
+    "target_min_basket_xy_m": 0.1227,
+    "lifted_other_objects": [],
+    "max_other_lift_m": 0.0113,
+    "basket_xy_displacement_m": 0.0007
+  },
+  {
+    "suite": "libero_object_lan",
+    "task_id": 9,
+    "task": "pick orange juice and put into basket",
+    "recorded_status": "fail",
+    "replay_success": false,
+    "mode": "wrong_object_lift",
+    "target": "orange_juice_1",
+    "target_max_lift_m": 0,
+    "target_min_basket_xy_m": 0.3524,
+    "lifted_other_objects": [
+      "salad_dressing_1"
+    ],
+    "max_other_lift_m": 0.1313,
+    "basket_xy_displacement_m": 0.0377
+  },
+  {
+    "suite": "libero_object_task",
+    "task_id": 0,
+    "task": "pick the cream cheese and place it in the basket",
+    "recorded_status": "fail",
+    "replay_success": false,
+    "mode": "wrong_object_lift",
+    "target": "cream_cheese_1",
+    "target_max_lift_m": 0,
+    "target_min_basket_xy_m": 0.2542,
+    "lifted_other_objects": [
+      "butter_1"
+    ],
+    "max_other_lift_m": 0.1625,
+    "basket_xy_displacement_m": 0
+  },
+  {
+    "suite": "libero_object_task",
+    "task_id": 1,
+    "task": "pick the alphabet soup and place it in the basket",
+    "recorded_status": "fail",
+    "replay_success": false,
+    "mode": "no_stable_lift",
+    "target": "alphabet_soup_1",
+    "target_max_lift_m": 0.0038,
+    "target_min_basket_xy_m": 0.5281,
+    "lifted_other_objects": [],
+    "max_other_lift_m": 0.0093,
+    "basket_xy_displacement_m": 0
+  },
+  {
+    "suite": "libero_object_task",
+    "task_id": 2,
+    "task": "pick the tomato sauce and place it in the basket",
+    "recorded_status": "success",
+    "replay_success": true,
+    "mode": "success",
+    "target": "tomato_sauce_1",
+    "target_max_lift_m": 0.1531,
+    "target_min_basket_xy_m": 0.0234,
+    "lifted_other_objects": [],
+    "max_other_lift_m": 0,
+    "basket_xy_displacement_m": 0.0049
+  },
+  {
+    "suite": "libero_object_task",
+    "task_id": 3,
+    "task": "pick the ketchup and place it in the basket",
+    "recorded_status": "fail",
+    "replay_success": false,
+    "mode": "wrong_object_lift",
+    "target": "ketchup_1",
+    "target_max_lift_m": 0,
+    "target_min_basket_xy_m": 0.2591,
+    "lifted_other_objects": [
+      "cream_cheese_1"
+    ],
+    "max_other_lift_m": 0.1675,
+    "basket_xy_displacement_m": 0.0004
+  },
+  {
+    "suite": "libero_object_task",
+    "task_id": 4,
+    "task": "pick the milk and place it in the basket",
+    "recorded_status": "fail",
+    "replay_success": false,
+    "mode": "correct_object_delivery_or_release_failure",
+    "target": "milk_1",
+    "target_max_lift_m": 0.1472,
+    "target_min_basket_xy_m": 0.0539,
+    "lifted_other_objects": [],
+    "max_other_lift_m": 0.002,
+    "basket_xy_displacement_m": 0.0625
+  },
+  {
+    "suite": "libero_object_task",
+    "task_id": 5,
+    "task": "pick the bbq sauce and place it in the basket",
+    "recorded_status": "success",
+    "replay_success": true,
+    "mode": "success",
+    "target": "bbq_sauce_1",
+    "target_max_lift_m": 0.1494,
+    "target_min_basket_xy_m": 0.0286,
+    "lifted_other_objects": [],
+    "max_other_lift_m": 0,
+    "basket_xy_displacement_m": 0
+  },
+  {
+    "suite": "libero_object_task",
+    "task_id": 6,
+    "task": "pick the orange juice and place it in the basket",
+    "recorded_status": "fail",
+    "replay_success": false,
+    "mode": "wrong_object_lift",
+    "target": "orange_juice_1",
+    "target_max_lift_m": 0,
+    "target_min_basket_xy_m": 0.255,
+    "lifted_other_objects": [
+      "ketchup_1"
+    ],
+    "max_other_lift_m": 0.1151,
+    "basket_xy_displacement_m": 0.0061
+  },
+  {
+    "suite": "libero_object_task",
+    "task_id": 7,
+    "task": "pick the butter and place it in the basket",
+    "recorded_status": "fail",
+    "replay_success": false,
+    "mode": "wrong_object_lift",
+    "target": "butter_1",
+    "target_max_lift_m": 0,
+    "target_min_basket_xy_m": 0.4572,
+    "lifted_other_objects": [
+      "chocolate_pudding_1"
+    ],
+    "max_other_lift_m": 0.1911,
+    "basket_xy_displacement_m": 0.1707
+  },
+  {
+    "suite": "libero_object_task",
+    "task_id": 8,
+    "task": "pick the salad dressing and place it in the basket",
+    "recorded_status": "fail",
+    "replay_success": false,
+    "mode": "wrong_object_lift",
+    "target": "salad_dressing_1",
+    "target_max_lift_m": 0,
+    "target_min_basket_xy_m": 0.2815,
+    "lifted_other_objects": [
+      "alphabet_soup_1"
+    ],
+    "max_other_lift_m": 0.1962,
+    "basket_xy_displacement_m": 0.0045
+  },
+  {
+    "suite": "libero_object_task",
+    "task_id": 9,
+    "task": "pick the chocolate pudding and place it in the basket",
+    "recorded_status": "fail",
+    "replay_success": false,
+    "mode": "wrong_object_lift",
+    "target": "chocolate_pudding_1",
+    "target_max_lift_m": 0,
+    "target_min_basket_xy_m": 0.248,
+    "lifted_other_objects": [
+      "salad_dressing_1"
+    ],
+    "max_other_lift_m": 0.1056,
+    "basket_xy_displacement_m": 0.0179
+  }
+]

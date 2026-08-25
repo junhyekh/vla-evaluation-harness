@@ -173,6 +173,7 @@
         <span class="chip">273 completed episodes</span>
         <span class="chip">273 finalized MP4s</span>
         <span class="chip">0 runtime errors</span>
+        <span class="chip">RBY1 rule proof passed</span>
         <span class="chip">1 initial state per task</span>
         <span class="chip">RTX A6000</span>
       </div>
@@ -292,14 +293,14 @@
             <p class="eyebrow">RBY1 failure mode</p>
             <h2>The gripper works; transfer does not</h2>
           </div>
-          <p>All 50 pi0.5-LIBERO RBY1 failures timed out at 280 steps. The controller, arm, and jaw were active, so a frozen or incorrectly shaped gripper is not a sufficient explanation.</p>
+          <p>All 50 pi0.5-LIBERO RBY1 failures timed out at 280 steps. A separate rule-based controller completes the matched task in 224 actions with no model control, isolating cross-embodiment policy transfer from basic setup capability.</p>
         </div>
 
         <div class="rby-callout">
           <div>
             <h3>Observed controller evidence</h3>
             <p>Across the 10 normal RBY1 episodes, the arm travels meaningful distances and repeatedly commands the gripper closed. Videos show near-object reaching and premature basket motion, but no robust pre-grasp and pickup.</p>
-            <p><strong>Interpretation:</strong> the dominant gap is Panda-to-RBY1 viewpoint, proprioceptive state, pre-grasp geometry, and action-dynamics transfer—not absent jaw actuation.</p>
+            <p><strong>Interpretation:</strong> the dominant gap is Panda-to-RBY1 viewpoint, proprioceptive state, pre-grasp geometry, and action-dynamics transfer—not absent jaw actuation or an unsolvable robot setup.</p>
           </div>
           <div class="stat-list">
             <div class="stat-row"><span>Median end-effector path</span><strong>0.998 m</strong></div>
@@ -309,6 +310,18 @@
             <div class="stat-row"><span>Runtime/controller errors</span><strong>0</strong></div>
           </div>
         </div>
+
+        <article class="pro-card" style="margin-top: 30px">
+          <video controls playsinline preload="metadata" aria-label="RBY1 deterministic rule-based pick and place proof"><source src="assets/pi05-libero-rby1/rby1-ruleproof-success.mp4" type="video/mp4">Your browser does not support MP4 video.</video>
+          <div class="pro-copy">
+            <span class="score">PASS</span>
+            <h3>No-model setup isolation</h3>
+            <p>On normal task 2, initial-state 0, a deterministic controller reads simulator object poses and executes fixed Cartesian waypoints. It asserts mesh hand/finger collisions, closes on salad dressing, lifts it 0.191 m, transports it, releases it, and satisfies the original LIBERO predicate in 224/280 actions. No pi0.5 observation or action is used.</p>
+            <p>This proves the tested arm, OSC controller, mesh gripper, contact model, placement, and predicate can solve this representative task. It does not certify every RBY1 task.</p>
+            <a class="timeline-link" href="assets/pi05-libero-rby1/rby1-ruleproof-timeline.png"><img loading="lazy" src="assets/pi05-libero-rby1/rby1-ruleproof-timeline.png" alt="RBY1 rule-based setup proof timeline"></a>
+            <p class="timeline-note"><a href="assets/pi05-libero-rby1/rby1-ruleproof-success.json">JSON stage record</a> · task 2 · 224 actions · succeeded</p>
+          </div>
+        </article>
 
         <div class="timeline-grid">
           <figure><a href="assets/pi05-libero-rby1/libero-rby1-normal-task0-timeline.png"><img loading="lazy" src="assets/pi05-libero-rby1/libero-rby1-normal-task0-timeline.png" alt="RBY1 normal task 0 nine-frame timeline"></a><figcaption>Normal task 0 · unsuccessful approach sequence</figcaption></figure>
@@ -369,6 +382,48 @@
           <article class="pro-card">
             <video controls playsinline preload="metadata" aria-label="UR5 LIBERO-Pro task success"><source src="assets/pi05-libero-rby1/libero-ur5-pro-task-task2-success.mp4" type="video/mp4">Your browser does not support MP4 video.</video>
             <div class="pro-copy"><span class="score">2/10</span><h3>Pro task rebinding</h3><p>Task 2 succeeds in 133 steps, showing that the policy can occasionally follow the changed object instruction.</p><a class="timeline-link" href="assets/pi05-libero-rby1/libero-ur5-pro-task-task2-timeline.png"><img loading="lazy" src="assets/pi05-libero-rby1/libero-ur5-pro-task-task2-timeline.png" alt="UR5 Pro task success timeline"></a></div>
+          </article>
+        </div>
+
+        <div class="section-head" style="margin-top: 60px">
+          <div><p class="eyebrow">50-episode action replay</p><h3>Failure modes are mostly object-selection errors</h3></div>
+          <p>Every recorded action trace was replayed while logging all object poses. Replay matched 50/50 recorded outcomes. Stable lift means &gt;0.06 m above initial height; basket proximity means &lt;0.13 m horizontal distance.</p>
+        </div>
+
+        <div class="metrics">
+          <article class="metric"><strong>32</strong><span>non-target object lifted while the requested target never lifted · 72.7% of failures</span></article>
+          <article class="metric"><strong>8</strong><span>no stable lift of any object · approach or grasp acquisition failure</span></article>
+          <article class="metric"><strong>2</strong><span>correct target lifted but never delivered to the basket</span></article>
+          <article class="metric"><strong>2</strong><span>correct target reached the basket area but placement or release failed</span></article>
+        </div>
+
+        <div class="table-shell">
+          <table>
+            <thead><tr><th>Suite</th><th>Success</th><th>Non-target lift</th><th>No stable lift</th><th>Correct lift, no delivery</th><th>Delivery/release failure</th></tr></thead>
+            <tbody>
+              <tr><td>Normal</td><td>2</td><td>4</td><td>4</td><td>0</td><td>0</td></tr>
+              <tr><td>Pro object</td><td>0</td><td>7</td><td>1</td><td>2</td><td>0</td></tr>
+              <tr><td>Pro swap</td><td>2</td><td>7</td><td>0</td><td>0</td><td>1</td></tr>
+              <tr><td>Pro language</td><td>0</td><td>8</td><td>2</td><td>0</td><td>0</td></tr>
+              <tr><td>Pro task</td><td>2</td><td>6</td><td>1</td><td>0</td><td>1</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p class="audit"><strong>Interpretation:</strong> the dominant UR5 failure is object grounding/selection, not inability of the Robotiq gripper to hold objects. Basket collision is secondary: displacement exceeded 0.05 m in 9/44 failures and 0.10 m in 5/44. <a href="assets/pi05-libero-rby1/ur5-failure-analysis.json">Open all 50 replay measurements.</a></p>
+
+        <div class="evidence-grid" style="margin-top: 24px">
+          <article class="evidence">
+            <video controls playsinline preload="metadata" aria-label="UR5 no stable lift failure"><source src="assets/pi05-libero-rby1/libero-ur5-normal-task1-no-lift-fail.mp4" type="video/mp4">Your browser does not support MP4 video.</video>
+            <div class="evidence-body"><span class="tag fail">Failure · no stable lift</span><h3>Basket motion without pickup</h3><p>The arm approaches, then moves to the basket with empty jaws. Neither the requested cream cheese nor a distractor rises by 0.06 m.</p><a class="timeline-link" href="assets/pi05-libero-rby1/libero-ur5-normal-task1-no-lift-timeline.png"><img loading="lazy" src="assets/pi05-libero-rby1/libero-ur5-normal-task1-no-lift-timeline.png" alt="UR5 no stable lift failure timeline"></a><p class="timeline-note">Normal task 1 · 280 steps · failed</p></div>
+          </article>
+          <article class="evidence">
+            <video controls playsinline preload="metadata" aria-label="UR5 correct lift without delivery failure"><source src="assets/pi05-libero-rby1/libero-ur5-pro-object-task1-lift-no-delivery-fail.mp4" type="video/mp4">Your browser does not support MP4 video.</video>
+            <div class="evidence-body"><span class="tag fail">Failure · transport</span><h3>Correct lift, no delivery</h3><p>The requested red cream cheese rises 0.141 m, but never comes within 0.13 m of the basket before the horizon.</p><a class="timeline-link" href="assets/pi05-libero-rby1/libero-ur5-pro-object-task1-lift-no-delivery-timeline.png"><img loading="lazy" src="assets/pi05-libero-rby1/libero-ur5-pro-object-task1-lift-no-delivery-timeline.png" alt="UR5 correct-object lift without delivery timeline"></a><p class="timeline-note">Pro object task 1 · 280 steps · failed</p></div>
+          </article>
+          <article class="evidence">
+            <video controls playsinline preload="metadata" aria-label="UR5 placement and release failure"><source src="assets/pi05-libero-rby1/libero-ur5-pro-task-task4-release-fail.mp4" type="video/mp4">Your browser does not support MP4 video.</video>
+            <div class="evidence-body"><span class="tag fail">Failure · placement</span><h3>Correct delivery, basket displaced</h3><p>The requested milk rises 0.147 m and reaches 0.054 m from the basket center, but the trajectory moves the basket 0.063 m and never satisfies placement.</p><a class="timeline-link" href="assets/pi05-libero-rby1/libero-ur5-pro-task-task4-release-timeline.png"><img loading="lazy" src="assets/pi05-libero-rby1/libero-ur5-pro-task-task4-release-timeline.png" alt="UR5 correct delivery with basket displacement timeline"></a><p class="timeline-note">Pro task task 4 · 280 steps · failed</p></div>
           </article>
         </div>
       </div>
@@ -456,7 +511,15 @@ uv run --no-sync vla-eval run -c configs/benchmarks/libero_pro_ur5/object.yaml \
   --output-dir results/matrix_ur5_reproduction/${RERUN_MODEL}/ur5_pro \
   --record-video -y -v</code></pre></div></details>
 
-        <details><summary>6. Restore ownership and merge artifacts</summary><div class="detail-body"><pre><code>docker run --rm -v "${PWD}/${RERUN_ROOT}:/data" --entrypoint chown \
+        <details><summary>6. Run the no-model RBY1 setup proof</summary><div class="detail-body"><p>This proof uses simulator poses and deterministic Cartesian waypoints, not the VLA server.</p><pre><code>mkdir -p results/rby1_ruleproof
+docker run --rm --gpus all \
+  -v "${PWD}/results/rby1_ruleproof:/workspace/results" \
+  --entrypoint conda \
+  ghcr.io/allenai/vla-evaluation-harness/libero-rby1:latest \
+  run --no-capture-output -n libero python /app/prove_libero_rby1.py \
+  --video-dir /workspace/results</code></pre></div></details>
+
+        <details><summary>7. Restore ownership and merge artifacts</summary><div class="detail-body"><pre><code>docker run --rm -v "${PWD}/${RERUN_ROOT}:/data" --entrypoint chown \
   ghcr.io/allenai/vla-evaluation-harness/base:latest \
   -R "$(id -u):$(id -g)" /data
 
@@ -486,7 +549,7 @@ find ${RERUN_ROOT} -name 'recording-*.sqlite' -print0 \
           <div><dt>UR5 stack</dt><dd>robosuite 1.4 · UR5e · Robotiq85Gripper</dd></div>
           <div><dt>Hardware</dt><dd>1× NVIDIA RTX A6000 · 48 GiB</dd></div>
         </dl>
-        <p class="audit"><strong>Artifact audit passed:</strong> the original Panda/RBY1 bundle has 200 complete episodes. The UR5 addition has 73 completed rows, 73 JSONL trajectories, 73 finalized MP4s, four SQLite databases, and eight aggregate JSONs. One retained temporary MP4 marks the intentionally interrupted base-Pro run; it is not counted as an episode.</p>
+        <p class="audit"><strong>Artifact audit passed:</strong> the original Panda/RBY1 bundle has 200 complete episodes. The UR5 addition has 73 completed rows, 73 JSONL trajectories, 73 finalized MP4s, four SQLite databases, and eight aggregate JSONs. UR5 action replay matched 50/50 recorded outcomes. The separate RBY1 rule proof records one predicate success plus JSON stage data. One retained temporary MP4 marks the intentionally interrupted base-Pro run; it is not counted as an episode.</p>
       </div>
     </section>
   </main>
