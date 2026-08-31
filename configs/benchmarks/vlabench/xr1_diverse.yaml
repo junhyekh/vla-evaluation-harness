@@ -1,0 +1,59 @@
+# XR-1 diversity check: 5 official tracks x 5 task families x 3 fixed episodes.
+server:
+  url: "ws://localhost:8000"
+
+docker:
+  image: ghcr.io/allenai/vla-evaluation-harness/vlabench:latest
+
+output_dir: "./results/xr1-vlabench-diverse-20260831"
+
+benchmarks:
+  - benchmark: "vla_eval.benchmarks.vlabench.benchmark:VLABenchBenchmark"
+    subname: "track_1_in_distribution"
+    episodes_per_task: 3
+    tasks: &tasks
+      - select_toy
+      - select_chemistry_tube
+      - select_painting
+      - add_condiment
+      - insert_flower
+    params:
+      eval_track: "track_1_in_distribution"
+      robot: "franka"
+      seed: 42
+
+  - benchmark: "vla_eval.benchmarks.vlabench.benchmark:VLABenchBenchmark"
+    subname: "track_2_cross_category"
+    episodes_per_task: 3
+    tasks: *tasks
+    params:
+      eval_track: "track_2_cross_category"
+      robot: "franka"
+      seed: 42
+
+  - benchmark: "vla_eval.benchmarks.vlabench.benchmark:VLABenchBenchmark"
+    subname: "track_3_common_sense"
+    episodes_per_task: 3
+    tasks: *tasks
+    params:
+      eval_track: "track_3_common_sense"
+      robot: "franka"
+      seed: 42
+
+  - benchmark: "vla_eval.benchmarks.vlabench.benchmark:VLABenchBenchmark"
+    subname: "track_4_semantic_instruction"
+    episodes_per_task: 3
+    tasks: *tasks
+    params:
+      eval_track: "track_4_semantic_instruction"
+      robot: "franka"
+      seed: 42
+
+  - benchmark: "vla_eval.benchmarks.vlabench.benchmark:VLABenchBenchmark"
+    subname: "track_6_unseen_texture"
+    episodes_per_task: 3
+    tasks: *tasks
+    params:
+      eval_track: "track_6_unseen_texture"
+      robot: "franka"
+      seed: 42

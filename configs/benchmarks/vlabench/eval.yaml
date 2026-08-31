@@ -1,4 +1,4 @@
-# VLABench evaluation (100 tasks × 20 episodes)
+# VLABench official Track 1 evaluation (10 tasks x 50 fixed episodes)
 server:
   url: "ws://localhost:8000"
 
@@ -9,12 +9,9 @@ output_dir: "./results"
 
 benchmarks:
   - benchmark: "vla_eval.benchmarks.vlabench.benchmark:VLABenchBenchmark"
-    episodes_per_task: 3
+    subname: "track_1_in_distribution"
+    episodes_per_task: 50
     params:
-      tasks:
-        - "select_fruit"
-        - "select_toy"
-        - "select_drink"
+      eval_track: "track_1_in_distribution"
       robot: "franka"
-      max_steps: 200
-
+      seed: 42

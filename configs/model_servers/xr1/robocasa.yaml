@@ -1,0 +1,9 @@
+# Xiaomi Robotics XR-1 — RoboCasa checkpoint.
+script: "src/vla_eval/model_servers/xr1.py"
+args:
+  model_path: "XiaomiRobotics/Xiaomi-Robotics-1-RoboCasa"
+  revision: "82b7c2210c1a39fca4a87e681cffbbed134ccde0"
+  robot_type: "robocasa_mg"
+  request_seed: 42
+  chunk_size: 10
+  port: 8000

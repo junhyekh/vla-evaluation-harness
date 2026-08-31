@@ -1,0 +1,9 @@
+# Xiaomi Robotics XR-1 — VLABench checkpoint.
+script: "src/vla_eval/model_servers/xr1.py"
+args:
+  model_path: "XiaomiRobotics/Xiaomi-Robotics-1-VLABench"
+  revision: "f4986843002d86502e2e53079ca06d00a33abffc"
+  robot_type: "vlabench_choice"
+  request_seed: 42
+  chunk_size: 5
+  port: 8000

@@ -1,0 +1,8 @@
+# Xiaomi Robotics XR-1 — RoboCasa365 checkpoint.
+script: "src/vla_eval/model_servers/xr1.py"
+args:
+  model_path: "XiaomiRobotics/Xiaomi-Robotics-1-RoboCasa365"
+  revision: "3a6d0293bfa90759d34a7fc48c2c62413cd7bcf4"
+  robot_type: "robocasa365"
+  chunk_size: 16
+  port: 8000
